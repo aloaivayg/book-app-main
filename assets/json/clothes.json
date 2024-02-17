@@ -1,0 +1,40 @@
+{
+    "clothes": [
+        {
+            "hoodie": [
+                {
+                    "id": "001",
+                    "name": "Black hoodie",
+                    "price": 5,
+                    "size": "",
+                    "imageURL": "assets/images/fashion/hoodie1.png",
+                    "rating": 8.5
+                },
+                {
+                    "id": "002",
+                    "name": "DG Black hoodie ",
+                    "price": 6,
+                    "size": "",
+                    "imageURL": "assets/images/fashion/hoodie2.png",
+                    "rating": 9
+                },
+                {
+                    "id": "003",
+                    "name": "Blue hoodie ",
+                    "price": 7,
+                    "size": "",
+                    "imageURL": "assets/images/fashion/hoodie3.png",
+                    "rating": 8.4
+                },
+                {
+                    "id": "004",
+                    "name": "Black plain hoodie ",
+                    "price": 8,
+                    "size": "",
+                    "imageURL": "assets/images/fashion/hoodie4.png",
+                    "rating": 9.5
+                }
+            ]
+        }
+    ]
+}
