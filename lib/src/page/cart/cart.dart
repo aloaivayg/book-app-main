@@ -1,13 +1,11 @@
 import 'package:book_app/src/model/book.dart';
 import 'package:book_app/src/model/clothes.dart';
-import 'package:book_app/src/page/detail/detail.dart';
 import 'package:book_app/src/page/home/widget/category_title.dart';
 import 'package:book_app/src/page/payment/payment.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../common/widgets/custom_button.dart';
-import '../../provider/BookProvider.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({

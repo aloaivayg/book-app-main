@@ -1,4 +1,3 @@
-import 'package:book_app/src/provider/BookProvider.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-   
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -55,7 +53,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 hintText: AppLocalizations.of(context)!.searchBarText,
                 hintStyle: TextStyle(color: Colors.grey[600])),
             onChanged: (value) {
-              // context.read<BookProvider>().onSearchBook(myController.text);
               context
                   .read<ClothesProvider>()
                   .onSearchClothes(myController.text);

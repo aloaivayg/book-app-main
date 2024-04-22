@@ -1,6 +1,7 @@
-import 'package:book_app/src/provider/BookProvider.dart';
+import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'src/app.dart';
@@ -13,8 +14,8 @@ void main() async {
 
   await settingsController.loadSettings();
 
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: ((context) => BookProvider())),
-    ChangeNotifierProvider(create: ((context) => ClothesProvider())),
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(
+        create: ((context) => ClothesBloc()..add(const GetAllClothesEvent()))),
   ], child: MyApp(settingsController: settingsController)));
 }

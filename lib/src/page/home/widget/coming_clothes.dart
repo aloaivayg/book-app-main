@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class ComingBook extends StatelessWidget {
-  ComingBook({Key? key}) : super(key: key);
+class ComingClothes extends StatelessWidget {
+  ComingClothes({Key? key}) : super(key: key);
 
   final upcomings = [
     'assets/images/fashion/upcomingv1.jpg',
@@ -82,7 +82,6 @@ class ComingBook extends StatelessWidget {
                   activeDotColor: Colors.white,
                 ),
                 onDotClicked: (index) {
-                  print("DOT HITttttttttttttt");
                   _pageController.animateToPage(index,
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeOut);
