@@ -5,6 +5,7 @@ import 'package:book_app/src/page/item_details/item_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 import '../../../model/clothes.dart';
 
@@ -42,7 +43,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
     return BlocBuilder<ClothesBloc, ClothesState>(
       builder: (context, state) {
         if (state is DataLoading) {
-          return const Center(child: CupertinoActivityIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (state is FetchClothesSuccess) {
           return Column(
@@ -59,11 +60,12 @@ class _RecommendedItemState extends State<RecommendedItem> {
                     var clothes = state.clothesList![index];
                     return GestureDetector(
                       onTap: () {
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => const ItemInfoPage()));
+                        Get.to(const ItemInfoPage());
                         context
                             .read<ClothesBloc>()
                             .add(ViewClothesInfoEvent(clothes: clothes));
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ItemInfoPage()));
                       },
                       child: Stack(
                         children: [
@@ -77,7 +79,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: Image.asset(
-                                      clothes.imageURL!,
+                                      clothes.imageURL![0],
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -112,8 +114,10 @@ class _RecommendedItemState extends State<RecommendedItem> {
           );
         }
         return Container(
-          color: Colors.amber,
-        );
+            // width: 200,
+            // height: 200,
+            // color: Colors.amber,
+            );
       },
     );
   }

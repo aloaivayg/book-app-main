@@ -24,5 +24,29 @@ class FetchClothesError extends ClothesState {
 
 class ViewClothesInfoSuccess extends ClothesState {
   final Clothes clothes;
-  const ViewClothesInfoSuccess({required this.clothes});
+  final bool isEnabled;
+  final int cartQuantity;
+
+  const ViewClothesInfoSuccess({
+    required this.clothes,
+    required this.isEnabled,
+    required this.cartQuantity,
+  });
+}
+
+class AddToCartEnabled extends ClothesState {
+  final bool isEnabled = true;
+  final Clothes clothes;
+  const AddToCartEnabled({required this.clothes});
+}
+
+class AddToCartDisabled extends ClothesState {
+  final bool isEnabled = false;
+  final Clothes clothes;
+  const AddToCartDisabled({required this.clothes});
+}
+
+class ViewCartSuccess extends ClothesState {
+  final List<Clothes> clothesList;
+  const ViewCartSuccess({required this.clothesList});
 }

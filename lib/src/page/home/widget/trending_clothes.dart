@@ -1,5 +1,5 @@
 import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
-import 'package:book_app/src/model/book.dart';
+
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/home/widget/category_title.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
@@ -62,7 +62,7 @@ class _TrendingClothesState extends State<TrendingClothes> {
                               height: 120,
                               width: 100,
                               child: Image.asset(
-                                clothes.imageURL!,
+                                clothes.imageURL![0],
                                 fit: BoxFit.fill,
                               ),
                             ),

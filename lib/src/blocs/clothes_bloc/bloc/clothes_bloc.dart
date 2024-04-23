@@ -12,11 +12,17 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   ClothesBloc() : super(const DataLoading()) {
     on<GetAllClothesEvent>(onGetAllClothes);
     on<ViewClothesInfoEvent>(onViewClothesInfo);
+    on<EnableAddToCartEvent>(onEnableAddToCartEvent);
+    on<AddClothesToCartEvent>(onAddToCartEvent);
+    on<ViewCartEvent>(onViewCartEvent);
   }
+
+  var cartItems = <Clothes>[];
 
   void onGetAllClothes(
       GetAllClothesEvent event, Emitter<ClothesState> emit) async {
     final dataState = await Clothes.loadItemsFromBundle();
+
     emit(const DataLoading());
 
     if (dataState.isNotEmpty) {
@@ -33,10 +39,50 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   void onViewClothesInfo(
       ViewClothesInfoEvent event, Emitter<ClothesState> emit) async {
     emit(const DataLoading());
+
     if (event.clothes != null) {
-      emit(ViewClothesInfoSuccess(clothes: event.clothes));
+      emit(ViewClothesInfoSuccess(
+          clothes: event.clothes,
+          isEnabled: false,
+          cartQuantity: cartItems.length));
     } else {
       emit(FetchClothesError(DioException(requestOptions: RequestOptions())));
     }
+  }
+
+  void onEnableAddToCartEvent(
+      EnableAddToCartEvent event, Emitter<ClothesState> emit) async {
+    emit(const DataLoading());
+    if (event.selectedColorIndex != -1 && event.selectedSizeIndex != -1) {
+      emit(ViewClothesInfoSuccess(
+          clothes: event.clothes,
+          isEnabled: true,
+          cartQuantity: cartItems.length));
+    } else {
+      emit(ViewClothesInfoSuccess(
+          clothes: event.clothes,
+          isEnabled: false,
+          cartQuantity: cartItems.length));
+    }
+  }
+
+  void onAddToCartEvent(
+      AddClothesToCartEvent event, Emitter<ClothesState> emit) async {
+    var listItem = <Clothes>[];
+
+    emit(const DataLoading());
+    if (event.clothes != null) {
+      listItem.add(event.clothes);
+      cartItems.add(event.clothes);
+    }
+    // emit(ViewCartSuccess(clothesList: listItem));
+    emit(ViewClothesInfoSuccess(
+        clothes: event.clothes,
+        isEnabled: true,
+        cartQuantity: cartItems.length));
+  }
+
+  void onViewCartEvent(ViewCartEvent event, Emitter<ClothesState> emit) async {
+    emit(ViewCartSuccess(clothesList: cartItems));
   }
 }

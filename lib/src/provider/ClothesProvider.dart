@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import '../model/book.dart';
 import '../model/clothes.dart';
 
 class ClothesProvider with ChangeNotifier, DiagnosticableTreeMixin {

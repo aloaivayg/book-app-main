@@ -7,18 +7,27 @@ class ItemSlideShow extends StatelessWidget {
       required this.items,
       required this.width,
       required this.heigth,
-      this.margin})
+      this.margin,
+      this.selectedIndex = 0})
       : super(key: key);
 
   final List items;
   final double width;
   final double heigth;
   final EdgeInsetsGeometry? margin;
+  final int? selectedIndex;
 
   final _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (selectedIndex != -1) {
+        _pageController.animateToPage(selectedIndex!,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
+    });
+
     return Container(
       margin: margin,
       height: heigth,
@@ -35,7 +44,7 @@ class ItemSlideShow extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
                             child: Image.asset(
-                              e,
+                              e.toString(),
                               fit: BoxFit.scaleDown,
                             ),
                           ),
