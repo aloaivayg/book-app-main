@@ -5,6 +5,7 @@ import 'package:book_app/src/common/const/app_list.dart';
 import 'package:book_app/src/common/widgets/item_slide_show.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/cart.dart';
+import 'package:book_app/src/page/item_details/widgets/item_description.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,9 +74,9 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                           icon: const Icon(Icons.arrow_back_rounded),
                           color: const Color.fromARGB(255, 254, 252, 252),
                           onPressed: () {
-                            // context
-                            //     .read<ClothesBloc>()
-                            //     .add(const GetAllClothesEvent());
+                            context
+                                .read<ClothesBloc>()
+                                .add(const GetAllClothesEvent());
 
                             Get.back();
                           },
@@ -240,6 +241,22 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                       ),
                     ),
                   ]),
+                ),
+                Container(
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
+                    alignment: Alignment.centerLeft,
+                    child: DescriptionExpansionTile()),
+                Container(
+                  height: 60,
+                  width: 300,
+                  margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
+                  alignment: Alignment.center,
+                  color: const Color.fromARGB(255, 91, 50, 50),
+                  child: Text(
+                    "Size based on height",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 GestureDetector(
                   onTap: state.isEnabled

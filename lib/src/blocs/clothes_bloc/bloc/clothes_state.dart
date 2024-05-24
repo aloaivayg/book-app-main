@@ -48,5 +48,11 @@ class AddToCartDisabled extends ClothesState {
 
 class ViewCartSuccess extends ClothesState {
   final List<Clothes> clothesList;
-  const ViewCartSuccess({required this.clothesList});
+  final Map<String, int> clothesMap;
+  final double totalPrice;
+
+  const ViewCartSuccess(
+      {required this.clothesList,
+      required this.clothesMap,
+      required this.totalPrice});
 }

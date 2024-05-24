@@ -26,7 +26,7 @@ class _CartPageState extends State<CartPage> {
   // var trendingList = Book.generateTrendingBook();
   double totalPrice = 0;
   int quantityValue = 1;
-  var quantityMap = {};
+  // var quantityMap = {};
   @override
   void initState() {
     super.initState();
@@ -59,6 +59,9 @@ class _CartPageState extends State<CartPage> {
                             icon: const Icon(Icons.arrow_back_rounded),
                             color: const Color.fromARGB(255, 254, 252, 252),
                             onPressed: () {
+                              context
+                                  .read<ClothesBloc>()
+                                  .add(const GetAllClothesEvent());
                               Get.back();
                             },
                           ),
@@ -152,11 +155,6 @@ class _CartPageState extends State<CartPage> {
                                               const SizedBox(
                                                 width: 10,
                                               ),
-                                              // _buildIconText(
-                                              //   Icons.visibility,
-                                              //   Colors.white,
-                                              //   '${clothes.view}M Read',
-                                              // ),
                                             ],
                                           ),
                                         ),
@@ -194,7 +192,7 @@ class _CartPageState extends State<CartPage> {
                                                 left: 10, right: 10),
                                             child: Center(
                                               child: Text(
-                                                quantityMap[clothes.name]
+                                                state.clothesMap[clothes.id]
                                                     .toString(),
                                                 style: const TextStyle(
                                                     color: Colors.white,
@@ -290,7 +288,7 @@ class _CartPageState extends State<CartPage> {
                           Container(
                             margin: const EdgeInsets.all(10),
                             child: Text(
-                              "\$${totalPrice.toString()}",
+                              "\$${state.totalPrice.toString()}",
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,

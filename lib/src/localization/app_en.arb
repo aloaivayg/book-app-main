@@ -1,7 +1,9 @@
 {
   "appTitle": "fashion_app",
  
-  "searchBarText": "Search product here ..."
+  "searchBarText": "Search product here ...",
+
+  "sizeHight": "Size based on height"
 
 }
 

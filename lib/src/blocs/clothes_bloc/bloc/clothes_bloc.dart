@@ -18,6 +18,10 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   }
 
   var cartItems = <Clothes>[];
+  var cartItemQuantityMap = <String, int>{};
+  var cartItemMap = <String, Clothes>{};
+
+  double totalPrice = 0;
 
   void onGetAllClothes(
       GetAllClothesEvent event, Emitter<ClothesState> emit) async {
@@ -69,13 +73,24 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   void onAddToCartEvent(
       AddClothesToCartEvent event, Emitter<ClothesState> emit) async {
     var listItem = <Clothes>[];
+    totalPrice = 0;
 
     emit(const DataLoading());
     if (event.clothes != null) {
-      listItem.add(event.clothes);
-      cartItems.add(event.clothes);
+      cartItemMap.putIfAbsent(event.clothes.id, () => event.clothes);
+      if (cartItemQuantityMap.containsKey(event.clothes.id)) {
+        cartItemQuantityMap[event.clothes.id] =
+            cartItemQuantityMap[event.clothes.id]! + 1;
+      } else {
+        listItem.add(event.clothes);
+        cartItems.add(event.clothes);
+        cartItemQuantityMap[event.clothes.id] = 1;
+      }
+      for (var element in cartItemMap.keys) {
+        totalPrice +=
+            cartItemMap[element]!.price * cartItemQuantityMap[element]!;
+      }
     }
-    // emit(ViewCartSuccess(clothesList: listItem));
     emit(ViewClothesInfoSuccess(
         clothes: event.clothes,
         isEnabled: true,
@@ -83,6 +98,9 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   }
 
   void onViewCartEvent(ViewCartEvent event, Emitter<ClothesState> emit) async {
-    emit(ViewCartSuccess(clothesList: cartItems));
+    emit(ViewCartSuccess(
+        clothesList: cartItems,
+        clothesMap: cartItemQuantityMap,
+        totalPrice: totalPrice));
   }
 }
