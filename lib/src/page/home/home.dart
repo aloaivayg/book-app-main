@@ -1,4 +1,4 @@
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/page/home/widget/coming_clothes.dart';
 import 'package:book_app/src/page/home/widget/custom_app_bar.dart';
 import 'package:book_app/src/page/home/widget/custom_button.dart';

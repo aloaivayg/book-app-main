@@ -44,6 +44,21 @@ class Clothes {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'size': size,
+      'imageURL': imageURL,
+      'color': color,
+      'colorHexValue': colorHexValue,
+      'selectedSize': selectedSize,
+      'selectedColor': selectedColor,
+      'rating': rating,
+    };
+  }
+
   static Future<List<Clothes>> loadItemsFromBundle() async {
     final String response =
         await rootBundle.loadString('assets/json/clothes.json');

@@ -1,4 +1,4 @@
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/page/home/widget/category_title.dart';
 
 import 'package:book_app/src/page/item_details/item_details.dart';
@@ -62,7 +62,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                       onTap: () {
                         // Navigator.of(context).push(MaterialPageRoute(
                         //     builder: (context) => const ItemInfoPage()));
-                        Get.to(const ItemInfoPage());
+                        Get.to(() => const ItemInfoPage());
                         context
                             .read<ClothesBloc>()
                             .add(ViewClothesInfoEvent(clothes: clothes));

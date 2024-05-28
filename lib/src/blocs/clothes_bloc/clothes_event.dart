@@ -43,3 +43,18 @@ class AddClothesToCartEvent extends ClothesEvent {
 class ViewCartEvent extends ClothesEvent {
   const ViewCartEvent();
 }
+
+class IncreaseCartQuantityEvent extends ClothesEvent {
+  final Clothes clothes;
+  const IncreaseCartQuantityEvent({required this.clothes});
+}
+
+class DecreaseCartQuantityEvent extends ClothesEvent {
+  final Clothes clothes;
+  const DecreaseCartQuantityEvent({required this.clothes});
+}
+
+class RemoveCartItemEvent extends ClothesEvent {
+  final Clothes clothes;
+  const RemoveCartItemEvent({required this.clothes});
+}

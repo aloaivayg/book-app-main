@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:book_app/src/model/clothes.dart';
+import 'package:book_app/src/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,17 +16,21 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     on<EnableAddToCartEvent>(onEnableAddToCartEvent);
     on<AddClothesToCartEvent>(onAddToCartEvent);
     on<ViewCartEvent>(onViewCartEvent);
+    on<IncreaseCartQuantityEvent>(onIncreaseCartQuantityEvent);
+    on<DecreaseCartQuantityEvent>(onDecreaseCartQuantityEvent);
+    on<RemoveCartItemEvent>(onRemoveCartItemEvent);
   }
 
   var cartItems = <Clothes>[];
   var cartItemQuantityMap = <String, int>{};
   var cartItemMap = <String, Clothes>{};
-
+  late User user;
   double totalPrice = 0;
 
   void onGetAllClothes(
       GetAllClothesEvent event, Emitter<ClothesState> emit) async {
     final dataState = await Clothes.loadItemsFromBundle();
+    user = await User.loadUserFromBundle();
 
     emit(const DataLoading());
 
@@ -45,6 +50,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     emit(const DataLoading());
 
     if (event.clothes != null) {
+      print("CLOTHES INFO");
       emit(ViewClothesInfoSuccess(
           clothes: event.clothes,
           isEnabled: false,
@@ -70,6 +76,13 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     }
   }
 
+  void updateTotalPrice() {
+    totalPrice = 0;
+    for (var element in cartItemMap.keys) {
+      totalPrice += cartItemMap[element]!.price * cartItemQuantityMap[element]!;
+    }
+  }
+
   void onAddToCartEvent(
       AddClothesToCartEvent event, Emitter<ClothesState> emit) async {
     var listItem = <Clothes>[];
@@ -86,11 +99,10 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
         cartItems.add(event.clothes);
         cartItemQuantityMap[event.clothes.id] = 1;
       }
-      for (var element in cartItemMap.keys) {
-        totalPrice +=
-            cartItemMap[element]!.price * cartItemQuantityMap[element]!;
-      }
+
+      updateTotalPrice();
     }
+
     emit(ViewClothesInfoSuccess(
         clothes: event.clothes,
         isEnabled: true,
@@ -98,6 +110,54 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   }
 
   void onViewCartEvent(ViewCartEvent event, Emitter<ClothesState> emit) async {
+    emit(ViewCartSuccess(
+        clothesList: cartItems,
+        clothesMap: cartItemQuantityMap,
+        totalPrice: totalPrice));
+  }
+
+  void onIncreaseCartQuantityEvent(
+      IncreaseCartQuantityEvent event, Emitter<ClothesState> emit) async {
+    emit(const DataLoading());
+
+    if (cartItemQuantityMap[event.clothes.id]! < 10) {
+      cartItemQuantityMap[event.clothes.id] =
+          cartItemQuantityMap[event.clothes.id]! + 1;
+      updateTotalPrice();
+    }
+
+    emit(ViewCartSuccess(
+        clothesList: cartItems,
+        clothesMap: cartItemQuantityMap,
+        totalPrice: totalPrice));
+  }
+
+  void onDecreaseCartQuantityEvent(
+      DecreaseCartQuantityEvent event, Emitter<ClothesState> emit) async {
+    emit(const DataLoading());
+
+    if (cartItemQuantityMap[event.clothes.id]! > 1) {
+      cartItemQuantityMap[event.clothes.id] =
+          cartItemQuantityMap[event.clothes.id]! - 1;
+      updateTotalPrice();
+    }
+
+    emit(ViewCartSuccess(
+        clothesList: cartItems,
+        clothesMap: cartItemQuantityMap,
+        totalPrice: totalPrice));
+  }
+
+  void onRemoveCartItemEvent(
+      RemoveCartItemEvent event, Emitter<ClothesState> emit) async {
+    emit(const DataLoading());
+
+    cartItemMap.remove(event.clothes.id);
+    cartItemQuantityMap.remove(event.clothes.id);
+    cartItems.remove(event.clothes);
+
+    updateTotalPrice();
+
     emit(ViewCartSuccess(
         clothesList: cartItems,
         clothesMap: cartItemQuantityMap,

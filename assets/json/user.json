@@ -1,0 +1,39 @@
+{
+    "users": [
+        {
+            "id": "9e1c3e6d-13e7-4d0e-a2ef-9b9a9c1f2c8c",
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "password": "123",
+            "country": "Viet Nam",
+            "province": "Binh Duong",
+            "district": "Thu Dau Mot",
+            "ward": "Dinh Hoa",
+            "address": "1234 Hung Vuong",
+            "phoneNumber": "0988123123",
+            "avatarUrl": "https://example.com/avatar.jpg",
+            "cart": [
+              {
+                "id": "001",
+                "name": "Black hoodie",
+                "price": 5,
+                "size": ["S", "M", "X", "XL", "XXL"],
+                "imageURL": ["assets/images/fashion/hoodie1.png", "assets/images/fashion/hoodie1.png"],
+                "color": ["Black", "White"],
+                "color_value": ["#FFFFFF", "#000000"],
+                "rating": 8.5
+            }
+            ],
+            "orderHistory": [
+              "7b8cfe2e-5a4b-4fda-9c7b-5f34b92a3b9d",
+              "8a4f82b6-73f2-4fd2-8c7c-6d2b5b2f2e7c",
+              "8e7a6f6e-3b7a-4d8b-8a7b-9a8c5d8e7f6d",
+              "6f8d7e6d-8b6a-4d9c-9b7d-4d8c7e8b6f7d",
+              "7f8d6e8b-4d7c-9c6d-7b9d-8e6b7d8f6c7e"
+            ],
+            "createdAt": "2024-05-27T12:34:56.789Z",
+            "updatedAt": "2024-05-27T12:34:56.789Z"
+          }
+          
+    ]
+}

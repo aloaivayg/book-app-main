@@ -1,10 +1,11 @@
 import 'dart:convert';
 
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/common/const/app_list.dart';
 import 'package:book_app/src/common/widgets/item_slide_show.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/cart.dart';
+import 'package:book_app/src/page/item_details/widgets/comment_section.dart';
 import 'package:book_app/src/page/item_details/widgets/item_description.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
@@ -62,6 +63,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 child: const Center(child: CircularProgressIndicator()));
           }
           if (state is ViewClothesInfoSuccess) {
+            print(state.clothes.toJson());
             return Column(
               children: [
                 Container(
@@ -86,7 +88,9 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                         IconButton(
                           icon: const FaIcon(FontAwesomeIcons.cartShopping),
                           onPressed: () {
-                            context.read<ClothesBloc>().add(ViewCartEvent());
+                            context
+                                .read<ClothesBloc>()
+                                .add(const ViewCartEvent());
                             Get.off(CartPage());
                           },
                         ),
@@ -108,9 +112,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                  // height: 400,
-                  // width: double.maxFinite,
-
                   child: ItemSlideShow(
                     items: state.clothes.imageURL!,
                     width: double.maxFinite,
@@ -248,9 +249,11 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                     alignment: Alignment.centerLeft,
                     child: DescriptionExpansionTile()),
                 Container(
-                  height: 60,
+                  height: 40,
                   width: 300,
-                  margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                  ),
                   alignment: Alignment.center,
                   color: const Color.fromARGB(255, 91, 50, 50),
                   child: Text(
@@ -264,7 +267,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                           context.read<ClothesBloc>().add(
                               AddClothesToCartEvent(clothes: state.clothes));
 
-                          // Get.off(CartPage());
+                          showAddToCartDialog(context);
                         }
                       : null,
                   child: Container(
@@ -278,14 +281,56 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                       borderRadius: 14,
                     ),
                   ),
-                )
+                ),
+                Container(
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
+                    alignment: Alignment.centerLeft,
+                    child: const ItemDetailCommentSection(
+                      commentDetail: [],
+                    )),
               ],
             );
           }
 
-          return SizedBox();
+          return const SizedBox();
         },
       ),
     )));
+  }
+
+  void showAddToCartDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Item Added to Cart"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text("You have successfully added the item to your cart."),
+              SizedBox(height: 20),
+              // Replace with your own image asset
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Continue Shopping"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text("Go to Cart"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.read<ClothesBloc>().add(ViewCartEvent());
+                Get.off(CartPage());
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

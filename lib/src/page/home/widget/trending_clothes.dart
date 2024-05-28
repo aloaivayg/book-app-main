@@ -1,4 +1,4 @@
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/home/widget/category_title.dart';

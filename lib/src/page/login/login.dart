@@ -20,12 +20,12 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        Positioned.fill(
-          child: Image.asset(
-            "assets/images/login_bg.png",
-            fit: BoxFit.fill,
-          ),
-        ),
+        // Positioned.fill(
+        //   child: Image.asset(
+        //     "assets/images/login_bg.png",
+        //     fit: BoxFit.fill,
+        //   ),
+        // ),
         SizedBox(
             // width: MediaQuery.of(context).size.width,
             // height: MediaQuery.of(context).size.height,
@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   width: 500,
                 // )
                 )),
-        const RotatingWidget(),
+        // const RotatingWidget(),
       ]),
     );
   }

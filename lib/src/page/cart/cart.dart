@@ -1,11 +1,14 @@
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/model/clothes.dart';
+import 'package:book_app/src/page/cart/widgets/cart_total_price.dart';
 import 'package:book_app/src/page/home/widget/category_title.dart';
 import 'package:book_app/src/page/payment/payment.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
@@ -67,10 +70,9 @@ class _CartPageState extends State<CartPage> {
                           ),
                         ),
                         Text("Cart"),
-                        IconButton(
-                          icon: const Icon(CupertinoIcons.add),
-                          onPressed: () {},
-                        ),
+                        const SizedBox(
+                          width: 30,
+                        )
                       ],
                     ),
                     Container(
@@ -122,24 +124,37 @@ class _CartPageState extends State<CartPage> {
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
-                                            Icon(
-                                              Icons.bookmark,
-                                              color: Colors.orange[300],
+                                            GestureDetector(
+                                              onTap: () {
+                                                context.read<ClothesBloc>().add(
+                                                    RemoveCartItemEvent(
+                                                        clothes: clothes));
+                                              },
+                                              child: Container(
+                                                child: const Center(
+                                                  child: FaIcon(
+                                                    FontAwesomeIcons.x,
+                                                    color: Colors.white,
+                                                    size: 15,
+                                                  ),
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
                                         Text(
-                                          "Size: ${clothes.size}",
-                                          style: TextStyle(color: Colors.grey),
+                                          "Size: ${clothes.selectedSize}",
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(
                                           height: 15,
                                         ),
                                         Text(
-                                          "Color: ${clothes.color!}",
+                                          "Color: ${clothes.selectedColor}",
                                           overflow: TextOverflow.ellipsis,
                                           style: const TextStyle(
-                                              color: Colors.grey),
+                                              color: Colors.white),
                                         ),
                                         const SizedBox(
                                           height: 15,
@@ -148,10 +163,7 @@ class _CartPageState extends State<CartPage> {
                                           margin: EdgeInsets.only(bottom: 8),
                                           child: Row(
                                             children: [
-                                              _buildIconText(
-                                                  Icons.star,
-                                                  Colors.orange[300]!,
-                                                  '\$${clothes.price}'),
+                                              Text('\$${clothes.price}'),
                                               const SizedBox(
                                                 width: 10,
                                               ),
@@ -159,18 +171,15 @@ class _CartPageState extends State<CartPage> {
                                           ),
                                         ),
                                         Row(children: [
-                                          InkWell(
+                                          GestureDetector(
                                             onTap: () {
-                                              context
-                                                  .read<ClothesProvider>()
-                                                  .onDecrease(clothes);
-                                              setState(() {});
+                                              context.read<ClothesBloc>().add(
+                                                  DecreaseCartQuantityEvent(
+                                                      clothes: clothes));
                                             },
                                             child: Container(
                                               width: 25,
                                               height: 25,
-                                              margin: const EdgeInsets.only(
-                                                  left: 20),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -200,17 +209,15 @@ class _CartPageState extends State<CartPage> {
                                               ),
                                             ),
                                           ),
-                                          InkWell(
+                                          GestureDetector(
                                             onTap: () {
-                                              context
-                                                  .read<ClothesProvider>()
-                                                  .onIncrease(clothes);
-                                              setState(() {});
+                                              context.read<ClothesBloc>().add(
+                                                  IncreaseCartQuantityEvent(
+                                                      clothes: clothes));
                                             },
                                             child: Container(
                                               width: 25,
                                               height: 25,
-                                              margin: EdgeInsets.only(),
                                               decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.circular(8),
@@ -225,31 +232,6 @@ class _CartPageState extends State<CartPage> {
                                               ),
                                             ),
                                           ),
-                                          InkWell(
-                                            onTap: () {
-                                              context
-                                                  .read<ClothesProvider>()
-                                                  .onRemove(clothes);
-                                              setState(() {});
-                                            },
-                                            child: Container(
-                                              width: 60,
-                                              height: 25,
-                                              margin: EdgeInsets.only(left: 10),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  color: Colors.white),
-                                              child: const Center(
-                                                child: Text(
-                                                  "Remove",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14),
-                                                ),
-                                              ),
-                                            ),
-                                          )
                                         ]),
                                       ],
                                     ))
@@ -264,41 +246,48 @@ class _CartPageState extends State<CartPage> {
                           itemCount: cartList.length),
                     ),
                     Container(
-                      margin:
-                          const EdgeInsets.only(left: 25, right: 25, top: 5),
-                      width: double.maxFinite,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.black,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            child: const Text(
-                              "Total",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            child: Text(
-                              "\$${state.totalPrice.toString()}",
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    InkWell(
+                        margin:
+                            const EdgeInsets.only(left: 15, right: 15, top: 5),
+                        width: double.maxFinite,
+                        child: CartTotalPriceExpansionTile(
+                          totalPrice: state.totalPrice,
+                        )),
+                    // Container(
+                    //   margin:
+                    //       const EdgeInsets.only(left: 25, right: 25, top: 5),
+                    //   width: double.maxFinite,
+                    //   height: 80,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8),
+                    //     color: Colors.black,
+                    //   ),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //     children: [
+                    //       Container(
+                    //         margin: const EdgeInsets.all(10),
+                    //         child: const Text(
+                    //           "Total",
+                    //           style: TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: 20,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //       ),
+                    //       Container(
+                    //         margin: const EdgeInsets.all(10),
+                    //         child: Text(
+                    //           "\$${state.totalPrice.toString()}",
+                    //           style: const TextStyle(
+                    //               color: Colors.white,
+                    //               fontSize: 20,
+                    //               fontWeight: FontWeight.bold),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                    GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const PaymentPage()));

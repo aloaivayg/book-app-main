@@ -11,8 +11,9 @@ class LoginForm extends StatefulWidget {
   final AuthenticationBloc bloc;
 
   const LoginForm({
+    Key? key,
     required this.bloc,
-  });
+  }) : super(key: key);
 
   @override
   State<LoginForm> createState() => _LoginFormState();

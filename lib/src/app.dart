@@ -1,4 +1,4 @@
-import 'package:book_app/src/blocs/clothes_bloc/bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/home/home.dart';
 import 'package:book_app/src/page/item_details/item_details.dart';
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           routes: {
             '/': (context) => HomePage(settingsController: settingsController),
-            '/item': (context) => const ItemInfoPage()
+            // '/item': (context) => const ItemInfoPage()
           },
 
           debugShowCheckedModeBanner: false,
@@ -53,11 +53,11 @@ class MyApp extends StatelessWidget {
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
           themeMode: settingsController.themeMode,
-
+          initialRoute: '/',
           routingCallback: (routing) {
             print(routing!.current);
 
-            if (routing!.current == "/") {
+            if (routing.current == "/") {
               print("CALLING BACK");
               context.read<ClothesBloc>().add(const GetAllClothesEvent());
             }
