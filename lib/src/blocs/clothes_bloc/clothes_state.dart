@@ -56,3 +56,11 @@ class ViewCartSuccess extends ClothesState {
       required this.clothesMap,
       required this.totalPrice});
 }
+
+class ViewPaymentDetailSuccess extends ClothesState {
+  final List<Clothes> clothesList;
+  final double totalPrice;
+
+  const ViewPaymentDetailSuccess(
+      {required this.clothesList, required this.totalPrice});
+}

@@ -19,6 +19,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     on<IncreaseCartQuantityEvent>(onIncreaseCartQuantityEvent);
     on<DecreaseCartQuantityEvent>(onDecreaseCartQuantityEvent);
     on<RemoveCartItemEvent>(onRemoveCartItemEvent);
+    on<ViewPaymentDetailsEvent>(onViewPaymentDetailsEvent);
   }
 
   var cartItems = <Clothes>[];
@@ -162,5 +163,13 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
         clothesList: cartItems,
         clothesMap: cartItemQuantityMap,
         totalPrice: totalPrice));
+  }
+
+  void onViewPaymentDetailsEvent(
+      ViewPaymentDetailsEvent event, Emitter<ClothesState> emit) async {
+    emit(const DataLoading());
+
+    emit(ViewPaymentDetailSuccess(
+        clothesList: cartItems, totalPrice: totalPrice));
   }
 }

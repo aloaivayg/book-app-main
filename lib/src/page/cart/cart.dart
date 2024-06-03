@@ -1,21 +1,16 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/widgets/cart_total_price.dart';
-import 'package:book_app/src/page/home/widget/category_title.dart';
 import 'package:book_app/src/page/payment/payment.dart';
-import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:provider/provider.dart';
 import '../../common/widgets/custom_button.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({
+  const CartPage({
     Key? key,
   }) : super(key: key);
 
@@ -25,11 +20,9 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   var cartList = <Clothes>[];
-
-  // var trendingList = Book.generateTrendingBook();
   double totalPrice = 0;
   int quantityValue = 1;
-  // var quantityMap = {};
+
   @override
   void initState() {
     super.initState();
@@ -37,10 +30,6 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    // cartList = context.watch<ClothesProvider>().cartItemList;
-    // totalPrice = context.watch<ClothesProvider>().totalPrice;
-    // quantityMap = context.watch<ClothesProvider>().cartItemQuantity;
-
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<ClothesBloc, ClothesState>(
@@ -252,53 +241,24 @@ class _CartPageState extends State<CartPage> {
                         child: CartTotalPriceExpansionTile(
                           totalPrice: state.totalPrice,
                         )),
-                    // Container(
-                    //   margin:
-                    //       const EdgeInsets.only(left: 25, right: 25, top: 5),
-                    //   width: double.maxFinite,
-                    //   height: 80,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(8),
-                    //     color: Colors.black,
-                    //   ),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //     children: [
-                    //       Container(
-                    //         margin: const EdgeInsets.all(10),
-                    //         child: const Text(
-                    //           "Total",
-                    //           style: TextStyle(
-                    //               color: Colors.white,
-                    //               fontSize: 20,
-                    //               fontWeight: FontWeight.bold),
-                    //         ),
-                    //       ),
-                    //       Container(
-                    //         margin: const EdgeInsets.all(10),
-                    //         child: Text(
-                    //           "\$${state.totalPrice.toString()}",
-                    //           style: const TextStyle(
-                    //               color: Colors.white,
-                    //               fontSize: 20,
-                    //               fontWeight: FontWeight.bold),
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const PaymentPage()));
-                      },
+                      onTap: state.clothesList.isNotEmpty
+                          ? () {
+                              context
+                                  .read<ClothesBloc>()
+                                  .add(const ViewPaymentDetailsEvent());
+                              Get.to(() => const PaymentPage());
+                            }
+                          : null,
                       child: Container(
                         margin: const EdgeInsets.only(top: 15, bottom: 20),
-                        child: const SquareButton(
+                        child: SquareButton(
                           height: 40,
                           width: 300,
                           text: "Proceed to payment",
-                          color: Colors.black,
+                          color: state.clothesList.isNotEmpty
+                              ? Colors.black
+                              : Colors.grey,
                           textColor: Colors.white,
                           borderRadius: 14,
                         ),
