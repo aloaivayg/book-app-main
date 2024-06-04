@@ -18,6 +18,8 @@ class User {
 
   final String avatarUrl; // URL to the user's profile picture
   final List<Clothes> cart;
+  final List<Clothes> wishList;
+
   final List<String> orderHistory; // List of order IDs
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -35,6 +37,7 @@ class User {
     required this.phoneNumber,
     required this.avatarUrl,
     required this.cart,
+    required this.wishList,
     required this.orderHistory,
     required this.createdAt,
     required this.updatedAt,
@@ -56,6 +59,8 @@ class User {
       avatarUrl: json['avatarUrl'] as String,
       cart: List<Clothes>.from(
           json['cart'].map((dynamic i) => Clothes.fromJson(i))),
+      wishList: List<Clothes>.from(
+          json['wishList'].map((dynamic i) => Clothes.fromJson(i))),
       orderHistory: List<String>.from(json['orderHistory'] as List),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -77,6 +82,7 @@ class User {
       'phoneNumber': phoneNumber,
       'avatarUrl': avatarUrl,
       'cart': cart,
+      'wishList': wishList,
       'orderHistory': orderHistory,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
@@ -92,6 +98,7 @@ class User {
     String? phoneNumber,
     String? avatarUrl,
     List<Clothes>? cart,
+    List<Clothes>? wishList,
     List<String>? orderHistory,
     DateTime? updatedAt,
   }) {
@@ -104,6 +111,7 @@ class User {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       cart: cart ?? this.cart,
+      wishList: wishList ?? this.wishList,
       orderHistory: orderHistory ?? this.orderHistory,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

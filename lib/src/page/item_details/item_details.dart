@@ -1,24 +1,14 @@
-import 'dart:convert';
-
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/common/const/app_list.dart';
 import 'package:book_app/src/common/widgets/item_slide_show.dart';
-import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/item_details/widgets/comment_section.dart';
 import 'package:book_app/src/page/item_details/widgets/item_description.dart';
-import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 import '../../common/widgets/custom_button.dart';
 
@@ -91,7 +81,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                             context
                                 .read<ClothesBloc>()
                                 .add(const ViewCartEvent());
-                            Get.off(CartPage());
+                            Get.off(const CartPage());
                           },
                         ),
                         Positioned(
@@ -134,10 +124,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                               padding: const EdgeInsets.only(right: 60),
                               child: Text("\$${state.clothes.price}"),
                             ),
-                            Icon(
-                              Icons.star,
-                              color: Colors.grey[400],
-                            )
                           ],
                         )
                       ],
@@ -244,11 +230,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                   ]),
                 ),
                 Container(
-                    width: double.maxFinite,
-                    margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
-                    alignment: Alignment.centerLeft,
-                    child: DescriptionExpansionTile()),
-                Container(
                   height: 40,
                   width: 300,
                   margin: const EdgeInsets.only(
@@ -271,17 +252,29 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                         }
                       : null,
                   child: Container(
-                    margin: const EdgeInsets.only(top: 15, bottom: 20),
-                    child: SquareButton(
-                      height: 40,
-                      width: 300,
-                      text: "Add to cart",
-                      color: state.isEnabled ? Colors.black : Colors.grey,
-                      textColor: Colors.white,
-                      borderRadius: 14,
+                    margin: const EdgeInsets.only(
+                        top: 15, bottom: 20, left: 30, right: 30),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SquareButton(
+                          height: 40,
+                          width: 250,
+                          text: "Add to cart",
+                          color: state.isEnabled ? Colors.black : Colors.grey,
+                          textColor: Colors.white,
+                          borderRadius: 14,
+                        ),
+                        const FaIcon(FontAwesomeIcons.heart)
+                      ],
                     ),
                   ),
                 ),
+                Container(
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
+                    alignment: Alignment.centerLeft,
+                    child: const DescriptionExpansionTile()),
                 Container(
                     width: double.maxFinite,
                     margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
@@ -304,8 +297,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Item Added to Cart"),
-          content: Column(
+          title: const Text("Item Added to Cart"),
+          content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text("You have successfully added the item to your cart."),
@@ -324,8 +317,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
               child: Text("Go to Cart"),
               onPressed: () {
                 Navigator.of(context).pop();
-                context.read<ClothesBloc>().add(ViewCartEvent());
-                Get.off(CartPage());
+                context.read<ClothesBloc>().add(const ViewCartEvent());
+                Get.off(const CartPage());
               },
             ),
           ],

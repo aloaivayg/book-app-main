@@ -1,4 +1,5 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,5 +15,6 @@ void main() async {
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: ((context) => ClothesBloc())),
+    BlocProvider(create: ((context) => UserBloc())),
   ], child: MyApp(settingsController: settingsController)));
 }

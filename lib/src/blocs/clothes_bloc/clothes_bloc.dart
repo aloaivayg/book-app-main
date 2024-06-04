@@ -32,6 +32,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
       GetAllClothesEvent event, Emitter<ClothesState> emit) async {
     final dataState = await Clothes.loadItemsFromBundle();
     user = await User.loadUserFromBundle();
+    print(user.toJson());
 
     emit(const DataLoading());
 
