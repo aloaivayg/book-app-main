@@ -42,7 +42,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
     rightScrollConstraint = MediaQuery.of(context).size.width / 1.5;
     return BlocBuilder<ClothesBloc, ClothesState>(
       builder: (context, state) {
-        if (state is DataLoading) {
+        if (state is ClothesDataLoading) {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is FetchClothesSuccess) {

@@ -1,0 +1,20 @@
+{
+  "appTitle": "fashion_app",
+ 
+  "searchBarText": "Tìm kiếm sản phẩm ...",
+
+  "sizeHight": "Bản kích thước - chiều cao",
+
+  "member": "Thành viên",
+
+  "memberCode": "Mã thành viên",
+
+
+  "profile": "Hồ sơ",
+
+  "transaction": "Lịch sử mua hàng",
+
+  "vouchers": "Mã giảm giá",
+
+  "settings": "Cài đặt"
+}

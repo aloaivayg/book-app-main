@@ -1,10 +1,12 @@
+import 'package:book_app/src/blocs/app_setting_bloc/bloc/app_setting_bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/page/home/widget/coming_clothes.dart';
 import 'package:book_app/src/page/home/widget/custom_app_bar.dart';
 import 'package:book_app/src/page/home/widget/custom_button.dart';
 import 'package:book_app/src/page/home/widget/recommended_item.dart';
 import 'package:book_app/src/page/home/widget/trending_clothes.dart';
-import 'package:book_app/src/page/login/login.dart';
+import 'package:book_app/src/page/user/login.dart';
+import 'package:book_app/src/page/user/user_profile_screen.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +15,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  final SettingsController? settingsController;
-  const HomePage({Key? key, required this.settingsController})
-      : super(key: key);
+  // final SettingsController? settingsController;
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,9 +30,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.appTitle)),
-      body: HomePageDetail(
-        settingsController: widget.settingsController,
-      ),
+      body: HomePageDetail(),
       bottomNavigationBar: _buildBottomNavigation(context),
     ));
   }
@@ -53,8 +54,8 @@ class _HomePageState extends State<HomePage> {
           label: 'Person',
           icon: InkWell(
               onTap: (() {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const LoginPage()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => UserProfileScreen()));
               }),
               child: const Icon(Icons.person_outline)),
         )
@@ -64,10 +65,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomePageDetail extends StatefulWidget {
-  final SettingsController? settingsController;
-
-  const HomePageDetail({Key? key, required this.settingsController})
-      : super(key: key);
+  const HomePageDetail({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePageDetail> createState() => _HomePageDetailState();
@@ -78,57 +78,62 @@ class _HomePageDetailState extends State<HomePageDetail> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    print("INIT");
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: ListView(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        children: [
-          CustomAppBar(settingsController: widget.settingsController!),
-          // Row(
-          //   children: [
-          //     InkWell(
-          //       child: const CustomSortTitle(
-          //         title: "Trending",
-          //       ),
-          //       onTap: () => Scrollable.ensureVisible(
-          //           dataKey.currentContext!,
-          //           duration: const Duration(seconds: 2)),
-          //     ),
-          //     InkWell(
-          //         child: const CustomSortTitle(
-          //           title: "By Price",
-          //         ),
-          //         onTap: () {
-          //           context.read<ClothesProvider>().onSortPrice();
-          //           Scrollable.ensureVisible(dataKey.currentContext!,
-          //               duration: const Duration(seconds: 2));
-          //         }),
-          //     InkWell(
-          //         child: const CustomSortTitle(
-          //           title: "By Star",
-          //         ),
-          //         onTap: () {
-          //           context.read<ClothesProvider>().onSortStar();
-          //           Scrollable.ensureVisible(dataKey.currentContext!,
-          //               duration: const Duration(seconds: 2));
-          //         }),
-          //   ],
-          // ),
+    return BlocBuilder<AppSettingBloc, AppSettingState>(
+      builder: (context, state) {
+        if (state is AppSettingInitialSuccess) {
+          return SingleChildScrollView(
+            child: ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                CustomAppBar(settingsController: state.settingsController!),
+                // Row(
+                //   children: [
+                //     InkWell(
+                //       child: const CustomSortTitle(
+                //         title: "Trending",
+                //       ),
+                //       onTap: () => Scrollable.ensureVisible(
+                //           dataKey.currentContext!,
+                //           duration: const Duration(seconds: 2)),
+                //     ),
+                //     InkWell(
+                //         child: const CustomSortTitle(
+                //           title: "By Price",
+                //         ),
+                //         onTap: () {
+                //           context.read<ClothesProvider>().onSortPrice();
+                //           Scrollable.ensureVisible(dataKey.currentContext!,
+                //               duration: const Duration(seconds: 2));
+                //         }),
+                //     InkWell(
+                //         child: const CustomSortTitle(
+                //           title: "By Star",
+                //         ),
+                //         onTap: () {
+                //           context.read<ClothesProvider>().onSortStar();
+                //           Scrollable.ensureVisible(dataKey.currentContext!,
+                //               duration: const Duration(seconds: 2));
+                //         }),
+                //   ],
+                // ),
 
-          ComingClothes(),
-          const RecommendedItem(),
-          TrendingClothes(
-            key: dataKey,
-          ),
-        ],
-      ),
+                ComingClothes(),
+                const RecommendedItem(),
+                TrendingClothes(
+                  key: dataKey,
+                ),
+              ],
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }

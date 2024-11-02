@@ -1,7 +1,6 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
-import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/home/home.dart';
-import 'package:book_app/src/page/item_details/item_details.dart';
+import 'package:book_app/src/page/user/login.dart';
 import 'package:book_app/src/page/sign_up/sign_up.dart';
 import 'package:book_app/src/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +30,8 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return GetMaterialApp(
           routes: {
-            // '/': (context) => HomePage(settingsController: settingsController),
-            '/': (context) => SignUpScreen(),
+            '/': (context) => HomePage(),
+            // '/': (context) => LoginPage(),
 
             // '/item': (context) => const ItemInfoPage()
           },
@@ -47,8 +46,8 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
+            Locale('vi', ''),
             Locale('en', ''),
-            Locale('es', ''),
           ],
           locale: settingsController.localeMode,
           onGenerateTitle: (BuildContext context) =>

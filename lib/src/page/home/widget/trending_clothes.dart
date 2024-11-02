@@ -26,7 +26,7 @@ class _TrendingClothesState extends State<TrendingClothes> {
   Widget build(BuildContext context) {
     return BlocBuilder<ClothesBloc, ClothesState>(
       builder: (context, state) {
-        if (state is DataLoading) {
+        if (state is ClothesDataLoading) {
           return const Center(child: CupertinoActivityIndicator());
         }
         if (state is FetchClothesSuccess) {

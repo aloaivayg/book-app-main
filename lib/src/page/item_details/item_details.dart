@@ -1,9 +1,11 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/common/const/app_list.dart';
 import 'package:book_app/src/common/widgets/item_slide_show.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/item_details/widgets/comment_section.dart';
 import 'package:book_app/src/page/item_details/widgets/item_description.dart';
+import 'package:book_app/src/page/user/login.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +55,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 child: const Center(child: CircularProgressIndicator()));
           }
           if (state is ViewClothesInfoSuccess) {
-            print(state.clothes.toJson());
             return Column(
               children: [
                 Container(
@@ -293,6 +294,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   }
 
   void showAddToCartDialog(BuildContext context) {
+    final userState = context.read<UserBloc>().state;
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -303,7 +306,6 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
             children: <Widget>[
               Text("You have successfully added the item to your cart."),
               SizedBox(height: 20),
-              // Replace with your own image asset
             ],
           ),
           actions: <Widget>[
@@ -317,8 +319,13 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
               child: Text("Go to Cart"),
               onPressed: () {
                 Navigator.of(context).pop();
-                context.read<ClothesBloc>().add(const ViewCartEvent());
-                Get.off(const CartPage());
+
+                if (userState is SignInSuccess) {
+                  context.read<ClothesBloc>().add(const ViewCartEvent());
+                  Get.off(const CartPage());
+                } else {
+                  Get.off(const LoginScreen());
+                }
               },
             ),
           ],

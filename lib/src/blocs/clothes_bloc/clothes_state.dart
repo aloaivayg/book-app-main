@@ -3,14 +3,15 @@ part of 'clothes_bloc.dart';
 class ClothesState extends Equatable {
   final List<Clothes>? clothesList;
   final DioException? error;
+  final Clothes? item;
 
-  const ClothesState({this.clothesList, this.error});
+  const ClothesState({this.clothesList, this.error, this.item});
   @override
   List<Object> get props => [clothesList!, error!];
 }
 
-class DataLoading extends ClothesState {
-  const DataLoading();
+class ClothesDataLoading extends ClothesState {
+  const ClothesDataLoading();
 }
 
 class FetchClothesSuccess extends ClothesState {
@@ -31,7 +32,7 @@ class ViewClothesInfoSuccess extends ClothesState {
     required this.clothes,
     required this.isEnabled,
     required this.cartQuantity,
-  });
+  }) : super(item: clothes);
 }
 
 class AddToCartEnabled extends ClothesState {

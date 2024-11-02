@@ -3,7 +3,19 @@
  
   "searchBarText": "Search product here ...",
 
-  "sizeHight": "Size based on height"
+  "sizeHight": "Size based on height",
+
+  "member": "Member",
+
+  "memberCode": "Member QR code",
+
+  "profile": "User profile",
+
+  "transaction": "Transaction history",
+
+  "vouchers": "My vouchers",
+
+  "settings": "Settings"
 
 }
 

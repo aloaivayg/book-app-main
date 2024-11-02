@@ -34,7 +34,7 @@ class _CartPageState extends State<CartPage> {
       child: Scaffold(
         body: BlocBuilder<ClothesBloc, ClothesState>(
           builder: (context, state) {
-            if (state is DataLoading) {
+            if (state is ClothesDataLoading) {
               return const Center(child: CupertinoActivityIndicator());
             }
             if (state is ViewCartSuccess) {

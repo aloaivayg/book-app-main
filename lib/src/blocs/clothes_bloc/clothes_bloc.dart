@@ -10,7 +10,7 @@ part 'clothes_event.dart';
 part 'clothes_state.dart';
 
 class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
-  ClothesBloc() : super(const DataLoading()) {
+  ClothesBloc() : super(const ClothesDataLoading()) {
     on<GetAllClothesEvent>(onGetAllClothes);
     on<ViewClothesInfoEvent>(onViewClothesInfo);
     on<EnableAddToCartEvent>(onEnableAddToCartEvent);
@@ -34,7 +34,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     user = await User.loadUserFromBundle();
     print(user.toJson());
 
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     if (dataState.isNotEmpty) {
       print("FETCH SUCCES");
@@ -49,7 +49,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onViewClothesInfo(
       ViewClothesInfoEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     if (event.clothes != null) {
       print("CLOTHES INFO");
@@ -64,7 +64,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onEnableAddToCartEvent(
       EnableAddToCartEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
     if (event.selectedColorIndex != -1 && event.selectedSizeIndex != -1) {
       emit(ViewClothesInfoSuccess(
           clothes: event.clothes,
@@ -90,7 +90,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     var listItem = <Clothes>[];
     totalPrice = 0;
 
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
     if (event.clothes != null) {
       cartItemMap.putIfAbsent(event.clothes.id, () => event.clothes);
       if (cartItemQuantityMap.containsKey(event.clothes.id)) {
@@ -120,7 +120,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onIncreaseCartQuantityEvent(
       IncreaseCartQuantityEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     if (cartItemQuantityMap[event.clothes.id]! < 10) {
       cartItemQuantityMap[event.clothes.id] =
@@ -136,7 +136,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onDecreaseCartQuantityEvent(
       DecreaseCartQuantityEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     if (cartItemQuantityMap[event.clothes.id]! > 1) {
       cartItemQuantityMap[event.clothes.id] =
@@ -152,7 +152,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onRemoveCartItemEvent(
       RemoveCartItemEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     cartItemMap.remove(event.clothes.id);
     cartItemQuantityMap.remove(event.clothes.id);
@@ -168,7 +168,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
   void onViewPaymentDetailsEvent(
       ViewPaymentDetailsEvent event, Emitter<ClothesState> emit) async {
-    emit(const DataLoading());
+    emit(const ClothesDataLoading());
 
     emit(ViewPaymentDetailSuccess(
         clothesList: cartItems, totalPrice: totalPrice));

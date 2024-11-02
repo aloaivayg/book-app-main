@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:book_app/src/model/clothes.dart';
+import 'package:book_app/src/model/voucher.dart';
 import 'package:flutter/services.dart';
 
 class User {
@@ -17,8 +18,9 @@ class User {
   final String address;
 
   final String avatarUrl; // URL to the user's profile picture
-  final List<Clothes> cart;
+  List<Clothes> cart;
   final List<Clothes> wishList;
+  final List<Voucher> voucherList;
 
   final List<String> orderHistory; // List of order IDs
   final DateTime createdAt;
@@ -38,6 +40,7 @@ class User {
     required this.avatarUrl,
     required this.cart,
     required this.wishList,
+    required this.voucherList,
     required this.orderHistory,
     required this.createdAt,
     required this.updatedAt,
@@ -61,6 +64,8 @@ class User {
           json['cart'].map((dynamic i) => Clothes.fromJson(i))),
       wishList: List<Clothes>.from(
           json['wishList'].map((dynamic i) => Clothes.fromJson(i))),
+      voucherList: List<Voucher>.from(
+          json['voucherList'].map((dynamic i) => Voucher.fromJson(i))),
       orderHistory: List<String>.from(json['orderHistory'] as List),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
@@ -83,6 +88,7 @@ class User {
       'avatarUrl': avatarUrl,
       'cart': cart,
       'wishList': wishList,
+      'voucherList': voucherList,
       'orderHistory': orderHistory,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
@@ -99,6 +105,7 @@ class User {
     String? avatarUrl,
     List<Clothes>? cart,
     List<Clothes>? wishList,
+    List<Voucher>? voucherList,
     List<String>? orderHistory,
     DateTime? updatedAt,
   }) {
@@ -112,6 +119,7 @@ class User {
       avatarUrl: avatarUrl ?? this.avatarUrl,
       cart: cart ?? this.cart,
       wishList: wishList ?? this.wishList,
+      voucherList: voucherList ?? this.voucherList,
       orderHistory: orderHistory ?? this.orderHistory,
       createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,

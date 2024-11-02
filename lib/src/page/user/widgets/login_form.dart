@@ -111,10 +111,7 @@ class _LoginFormState extends State<LoginForm> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: ((context) => HomePage(
-                  settingsController: null,
-                ))),
+        MaterialPageRoute(builder: ((context) => HomePage())),
       );
     });
   }
