@@ -19,3 +19,8 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+.flutter-plugins
+.flutter-plugins-dependencies
+.gitignore
+android/app/build.gradle
+android/app/build.gradle

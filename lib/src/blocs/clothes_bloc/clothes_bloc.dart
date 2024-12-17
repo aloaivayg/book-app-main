@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:book_app/src/config/data_source/ServerUrl.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:book_app/src/config/http/http_client.dart';
 
 part 'clothes_event.dart';
 part 'clothes_state.dart';
@@ -20,7 +23,11 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     on<DecreaseCartQuantityEvent>(onDecreaseCartQuantityEvent);
     on<RemoveCartItemEvent>(onRemoveCartItemEvent);
     on<ViewPaymentDetailsEvent>(onViewPaymentDetailsEvent);
+    on<PlaceOrderEvent>(onPlaceOrderEvent);
   }
+
+  var itemMapByProductCode = <String, List<Clothes>>{};
+  var itemListByProductCode = <Clothes>[];
 
   var cartItems = <Clothes>[];
   var cartItemQuantityMap = <String, int>{};
@@ -28,18 +35,61 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   late User user;
   double totalPrice = 0;
 
+  void onPlaceOrderEvent(
+      PlaceOrderEvent event, Emitter<ClothesState> emit) async {
+    final String url = '${ServerUrl.productApi}/create';
+
+    var body = {
+      "userId": "user123",
+      "orderDate": DateTime.now(),
+      "paymentMethod": "Credit Card",
+      "shippingAddress": "123 Main Street, Springfield, USA",
+      "shippingMethod": "Standard Shipping",
+      "orderItems": cartItemQuantityMap,
+      "discountsCode": "SUMMER20"
+    };
+
+    final response = await HttpClient.postRequest(url, params: body);
+    // print(jsonDecode(response["body"]));
+    if (response.statusCode == 200) {
+      emit(const PlaceOrderSuccess());
+    } else {
+      emit(const PlaceOrderFail());
+    }
+  }
+
+  void assignItemListByProductCode(List<Clothes> listItem) {
+    for (var item in listItem) {
+      String productCode = item.productCode;
+
+      if (!itemMapByProductCode.containsKey(productCode)) {
+        itemMapByProductCode[productCode] = [];
+      }
+
+      itemMapByProductCode[productCode]!.add(item);
+    }
+  }
+
+  void refreshValue() {
+    itemListByProductCode = [];
+  }
+
   void onGetAllClothes(
       GetAllClothesEvent event, Emitter<ClothesState> emit) async {
-    final dataState = await Clothes.loadItemsFromBundle();
-    user = await User.loadUserFromBundle();
-    print(user.toJson());
+    final dataState = await Clothes.fetchClothes();
 
     emit(const ClothesDataLoading());
+    refreshValue();
+    assignItemListByProductCode(dataState);
+
+    itemMapByProductCode.forEach(((key, value) {
+      itemListByProductCode.add(value.first);
+    }));
 
     if (dataState.isNotEmpty) {
       print("FETCH SUCCES");
 
-      emit(FetchClothesSuccess(dataState));
+      emit(FetchClothesSuccess(selectClothesList: itemListByProductCode));
     } else {
       print("FETCH ERROR");
 
@@ -52,9 +102,9 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     emit(const ClothesDataLoading());
 
     if (event.clothes != null) {
-      print("CLOTHES INFO");
       emit(ViewClothesInfoSuccess(
           clothes: event.clothes,
+          selectClothesList: itemMapByProductCode[event.clothes.productCode]!,
           isEnabled: false,
           cartQuantity: cartItems.length));
     } else {
@@ -68,11 +118,13 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     if (event.selectedColorIndex != -1 && event.selectedSizeIndex != -1) {
       emit(ViewClothesInfoSuccess(
           clothes: event.clothes,
+          selectClothesList: itemMapByProductCode[event.clothes.productCode]!,
           isEnabled: true,
           cartQuantity: cartItems.length));
     } else {
       emit(ViewClothesInfoSuccess(
           clothes: event.clothes,
+          selectClothesList: itemMapByProductCode[event.clothes.productCode]!,
           isEnabled: false,
           cartQuantity: cartItems.length));
     }
@@ -107,11 +159,13 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
     emit(ViewClothesInfoSuccess(
         clothes: event.clothes,
+        selectClothesList: itemMapByProductCode[event.clothes.productCode]!,
         isEnabled: true,
         cartQuantity: cartItems.length));
   }
 
   void onViewCartEvent(ViewCartEvent event, Emitter<ClothesState> emit) async {
+    print("---------${cartItems.length}");
     emit(ViewCartSuccess(
         clothesList: cartItems,
         clothesMap: cartItemQuantityMap,

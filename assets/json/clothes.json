@@ -2,47 +2,167 @@
     "clothes": [
         {
             "hoodie": [
-                {
-                    "id": "001",
-                    "name": "Black hoodie",
-                    "price": 5,
-                    "size": ["S", "M", "X", "XL", "XXL"],
-                    "imageURL": ["assets/images/fashion/hoodie1.png", "assets/images/fashion/hoodie1.png"],
-                    "color": ["Black", "White"],
-                    "color_value": ["#FFFFFF", "#000000"],
-                    "rating": 8.5
-                },
-                {
-                    "id": "002",
-                    "name": "DG Black hoodie ",
-                    "price": 6,
-                    "size": ["S", "M", "X", "XL", "XXL"],
-                    "imageURL": ["assets/images/fashion/hoodie2.png", "assets/images/fashion/hoodie2.png"],
-                    "color": ["Black", "White"],
-                    "color_value": ["#FFFFFF", "#000000"],
-                    "rating": 9
-                },
-                {
-                    "id": "003",
-                    "name": "Blue hoodie ",
-                    "price": 7,
-                    "size": ["S", "M", "X", "XL", "XXL"],
-                    "imageURL": ["assets/images/fashion/hoodie3.png", "assets/images/fashion/hoodie3.png"],
-                    "color": ["Black", "White"],
-                    "color_value": ["#FFFFFF", "#000000"],
-                    "rating": 8.4
-                },
-                {
-                    "id": "004",
-                    "name": "Black plain hoodie ",
-                    "price": 8,
-                    "size": ["S", "M", "X", "XL", "XXL"],
-                    "imageURL": ["assets/images/fashion/hoodie4.png", "assets/images/fashion/hoodie4.png"],
-                    "color": ["Black", "White"],
-                    "color_value": ["#FFFFFF", "#000000"],
-                    "rating": 9.5
-                }
-            ]
+                    {
+                      "id": "1",
+                      "name": "Black hoodie",
+                      "description": "A classic black hoodie with a comfortable fit.",
+                      "price": 39.99,
+                      "rating": 4.6,
+                      "baseImageUrl": "assets/images/fashion/hoodie/1/",
+                      "category": "Apparel",
+                      "brand": "HoodieCo",
+                      "variants": [
+                        {
+                          "id": "101",
+                          "size": "M",
+                          "color": "Black",
+                          "colorHexValue": "#000000",
+                          "quantity": 20
+                        },
+                        {
+                          "id": "102",
+                          "size": "L",
+                          "color": "Black",
+                          "colorHexValue": "#000000",
+                          "quantity": 15
+                        },
+                        {
+                            "id": "103",
+                            "size": "M",
+                            "color": "White",
+                            "colorHexValue": "#ffffff",
+                            "quantity": 17
+                          },
+                          {
+                              "id": "104",
+                              "size": "L",
+                              "color": "White",
+                              "colorHexValue": "#ffffff",
+                              "quantity": 18
+                            }
+                      ]
+                    },
+                    {
+                      "id": "2",
+                      "name": "DG Black hoodie",
+                      "description": "A premium black hoodie by DG with an elegant design.",
+                      "price": 89.99,
+                      "rating": 4.8,
+                      "baseImageUrl": "assets/images/fashion/hoodie/2/",
+                      "category": "Apparel",
+                      "brand": "DG",
+                      "variants": [
+                        {
+                          "id": "201",
+                          "size": "S",
+                          "color": "White",
+                          "colorHexValue": "#fffff",
+                          "quantity": 10
+                        },
+                        {
+                          "id": "202",
+                          "size": "M",
+                          "color": "White",
+                          "colorHexValue": "#fffff",
+                          "quantity": 8
+                        },
+                        {
+                          "id": "203",
+                          "size": "S",
+                          "color": "Red",
+                          "colorHexValue": "#FF4C4C",
+                          "quantity": 12
+                        },
+                        {
+                            "id": "204",
+                            "size": "M",
+                            "color": "Red",
+                            "colorHexValue": "#FF4C4C",
+                            "quantity": 15
+                          }
+                      ]
+                    },
+                    {
+                      "id": "3",
+                      "name": "K style hoodie",
+                      "description": "A stylish blue hoodie perfect for casual outings.",
+                      "price": 29.99,
+                      "rating": 4.4,
+                      "baseImageUrl": "assets/images/fashion/hoodie/3/",
+                      "category": "Apparel",
+                      "brand": "HoodieCo",
+                      "variants": [
+                        {
+                          "id": "301",
+                          "size": "M",
+                          "color": "Blue",
+                          "colorHexValue": "#4C4CFF",
+                          "quantity": 25
+                        },
+                        {
+                          "id": "302",
+                          "size": "L",
+                          "color": "Blue",
+                          "colorHexValue": "#4C4CFF",
+                          "quantity": 18
+                        },
+                        {
+                            "id": "303",
+                            "size": "M",
+                            "color": "Black",
+                            "colorHexValue": "#000000",
+                            "quantity": 20
+                          },
+                          {
+                            "id": "304",
+                            "size": "L",
+                            "color": "Black",
+                            "colorHexValue": "#000000",
+                            "quantity": 22
+                          }
+                      ]
+                    },
+                    {
+                      "id": "4",
+                      "name": "Essentials hoodie",
+                      "description": "A hoodie for a minimalist look.",
+                      "price": 34.99,
+                      "rating": 4.5,
+                      "baseImageUrl": "assets/images/fashion/hoodie/4/",
+                      "category": "Apparel",
+                      "brand": "PlainWear",
+                      "variants": [
+                        {
+                          "id": "401",
+                          "size": "M",
+                          "color": "Black",
+                          "colorHexValue": "#000000",
+                          "quantity": 30
+                        },
+                        {
+                          "id": "402",
+                          "size": "L",
+                          "color": "Black",
+                          "colorHexValue": "#000000",
+                          "quantity": 20
+                        },
+                        {
+                            "id": "403",
+                            "size": "M",
+                            "color": "White",
+                            "colorHexValue": "#fffff",
+                            "quantity": 32
+                          },
+                          {
+                            "id": "404",
+                            "size": "L",
+                            "color": "White",
+                            "colorHexValue": "#fffff",
+                            "quantity": 23
+                          }
+                      ]
+                    }
+                  ]                          
         }
     ]
 }

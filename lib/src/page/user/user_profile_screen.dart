@@ -2,6 +2,7 @@ import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/user/login.dart';
+import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -120,7 +121,22 @@ class _UserProfileScreenDetailState extends State<UserProfileScreenDetail> {
                           child: QrImageView(
                             data: "avc",
                             version: QrVersions.auto,
-                          ))
+                          )),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(LoginScreen());
+                        },
+                        child: Container(
+                          width: 150,
+                          height: 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: HexColor.fromHex("9C28B1"),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: const Text("Sign in"),
+                        ),
+                      ),
                     ],
                   ),
                 ),

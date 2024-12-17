@@ -62,3 +62,7 @@ class RemoveCartItemEvent extends ClothesEvent {
 class ViewPaymentDetailsEvent extends ClothesEvent {
   const ViewPaymentDetailsEvent();
 }
+
+class PlaceOrderEvent extends ClothesEvent {
+  const PlaceOrderEvent();
+}

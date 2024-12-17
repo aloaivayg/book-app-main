@@ -2,8 +2,10 @@
     "users": [
         {
             "id": "9e1c3e6d-13e7-4d0e-a2ef-9b9a9c1f2c8c",
-            "name": "John Doe",
+            "firstName": "John",
+            "lastName": "Doe",
             "email": "john.doe@example.com",
+            "username": "John1",
             "password": "123",
             "country": "Viet Nam",
             "province": "Binh Duong",
@@ -14,15 +16,24 @@
             "avatarUrl": "https://example.com/avatar.jpg",
             "cart": [
               {
-                "id": "001",
+                "id": "1",
                 "name": "Black hoodie",
-                "price": 5,
-                "size": ["S", "M", "X", "XL", "XXL"],
-                "imageURL": ["assets/images/fashion/hoodie1.png", "assets/images/fashion/hoodie1.png"],
-                "color": ["Black", "White"],
-                "color_value": ["#FFFFFF", "#000000"],
-                "rating": 8.5
-            }
+                "description": "A classic black hoodie with a comfortable fit.",
+                "price": 39.99,
+                "rating": 4.6,
+                "baseImageUrl": "assets/images/fashion/hoodie/1/",
+                "category": "Apparel",
+                "brand": "HoodieCo",
+                "variants": [
+                  {
+                    "id": "101",
+                    "size": "M",
+                    "color": "Black",
+                    "colorHexValue": "#000000",
+                    "quantity": 20
+                  }                  
+                ]
+              }
             ],
             "wishList": [],
             "voucherList": [

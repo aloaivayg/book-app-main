@@ -7,22 +7,27 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   dio: ^5.4.3+1
   equatable: ^2.0.5
+  file_picker: ^8.0.0+1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_flavorizr: ^2.2.3
   flutter_localizations:
     sdk: flutter
   font_awesome_flutter: ^10.7.0
   get: ^4.6.6
+  http: ^1.2.0
+  injectable: ^2.3.5
   mobile_scanner: ^4.0.1
   provider: ^6.0.5
   qr_flutter: ^4.1.0
   smooth_page_indicator: ^1.0.0+2
+
 
 dev_dependencies:
   flutter_test:
@@ -40,4 +45,45 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/images/fashion/
+    - assets/images/fashion/hoodie/
+    - assets/images/fashion/hoodie/1/
+    - assets/images/fashion/hoodie/2/
+    - assets/images/fashion/hoodie/3/
+    - assets/images/fashion/hoodie/4/
     - assets/json/
+
+flavorizr:
+  app:
+    android:
+      flavorDimensions: "owlpha-flavor" #version
+    ios:
+      flavorDimensions: "owlpha-flavor"
+
+  flavors:
+    client_dev:
+      app:
+        name: "Owlpha client"
+      android:
+        applicationId: "owlpha.application"
+         # icon: ".config/ic_launcher/ic_launcher.png"
+         #        firebase:
+         #          config: ".config/firebase/prod/google-services.json"
+      ios:
+        bundleId: "com.owlpha.application"
+         # icon: ".config/ic_launcher/ic_launcher.png"
+         #        firebase:
+         #          config: ".config/firebase/prod/GoogleService-Info.plist"
+
+    admin_dev:
+      app:
+        name: "Owlpha admin"
+      android:
+        applicationId: "owlpha_admin.application.beta"
+         # icon: ".config/ic_launcher/ic_launcher_beta.png"
+         #        firebase:
+         #          config: ".config/firebase/beta/google-services.json"
+      ios:
+        bundleId: "com.owlpha_admin.application.beta"
+         # icon: ".config/ic_launcher/ic_launcher_beta.png"
+         #        firebase:
+         #          config: ".config/firebase/beta/GoogleService-Info.plist"

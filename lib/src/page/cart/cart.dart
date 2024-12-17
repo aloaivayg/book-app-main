@@ -2,6 +2,7 @@ import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/widgets/cart_total_price.dart';
 import 'package:book_app/src/page/payment/payment.dart';
+import 'package:book_app/src/page/payment/payment2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,8 +85,8 @@ class _CartPageState extends State<CartPage> {
                                       borderRadius: BorderRadius.circular(10),
                                       child: SizedBox(
                                         height: 120,
-                                        child: Image.asset(
-                                          clothes.imageURL![0],
+                                        child: Image.network(
+                                          clothes.selectedImageUrl,
                                           width: 90,
                                           fit: BoxFit.fill,
                                         ),

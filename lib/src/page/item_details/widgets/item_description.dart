@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DescriptionExpansionTile extends StatefulWidget {
-  const DescriptionExpansionTile({Key? key}) : super(key: key);
+  const DescriptionExpansionTile({Key? key, required this.description})
+      : super(key: key);
+  final String description;
 
   @override
   State<DescriptionExpansionTile> createState() =>
@@ -19,33 +21,32 @@ class _DescriptionExpansionTileState extends State<DescriptionExpansionTile> {
         Container(
           child: const Text(
             "Description",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-        ),
-        const ExpansionTile(
-          title: Text('Overview'),
-          subtitle: Text('Trailing expansion arrow icon'),
-          children: <Widget>[
-            ListTile(title: Text('This is tile number 1')),
-          ],
         ),
         ExpansionTile(
-          title: const Text('Material'),
-          subtitle: const Text('Custom expansion arrow icon'),
-          trailing: Icon(
-            _customTileExpanded
-                ? Icons.arrow_drop_down_circle
-                : Icons.arrow_drop_down,
-          ),
-          children: const <Widget>[
-            ListTile(title: Text('This is tile number 2')),
+          title: Text('Overview'),
+          children: <Widget>[
+            ListTile(title: Text(widget.description)),
           ],
-          onExpansionChanged: (bool expanded) {
-            setState(() {
-              _customTileExpanded = expanded;
-            });
-          },
         ),
+        // ExpansionTile(
+        //   title: const Text('Material'),
+        //   subtitle: const Text('Custom expansion arrow icon'),
+        //   trailing: Icon(
+        //     _customTileExpanded
+        //         ? Icons.arrow_drop_down_circle
+        //         : Icons.arrow_drop_down,
+        //   ),
+        //   children: const <Widget>[
+        //     ListTile(title: Text('This is tile number 2')),
+        //   ],
+        //   onExpansionChanged: (bool expanded) {
+        //     setState(() {
+        //       _customTileExpanded = expanded;
+        //     });
+        //   },
+        // ),
       ],
     );
   }

@@ -43,7 +43,7 @@ class ItemSlideShow extends StatelessWidget {
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
-                            child: Image.asset(
+                            child: Image.network(
                               e.toString(),
                               fit: BoxFit.scaleDown,
                             ),

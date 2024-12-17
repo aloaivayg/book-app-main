@@ -1,5 +1,6 @@
 import 'package:book_app/src/blocs/app_setting_bloc/bloc/app_setting_bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/common/widgets/custom_bottom_navbar.dart';
 import 'package:book_app/src/page/home/widget/coming_clothes.dart';
 import 'package:book_app/src/page/home/widget/custom_app_bar.dart';
 import 'package:book_app/src/page/home/widget/custom_button.dart';
@@ -35,32 +36,34 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  BottomNavigationBar _buildBottomNavigation(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      selectedItemColor: Color(0xFF6741FF),
-      items: [
-        const BottomNavigationBarItem(
-          label: 'Home',
-          icon: Icon(Icons.home_rounded),
-        ),
-        const BottomNavigationBarItem(
-          label: 'Column',
-          icon: Icon(Icons.view_week_outlined),
-        ),
-        BottomNavigationBarItem(
-          label: 'Person',
-          icon: InkWell(
-              onTap: (() {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserProfileScreen()));
-              }),
-              child: const Icon(Icons.person_outline)),
-        )
-      ],
-    );
+  Widget _buildBottomNavigation(BuildContext context) {
+    // return BottomNavigationBar(
+    //   type: BottomNavigationBarType.fixed,
+    //   showSelectedLabels: false,
+    //   showUnselectedLabels: false,
+    //   selectedItemColor: Color(0xFF6741FF),
+    //   items: [
+    //     const BottomNavigationBarItem(
+    //       label: 'Home',
+    //       icon: Icon(Icons.home_rounded),
+    //     ),
+    //     const BottomNavigationBarItem(
+    //       label: 'Column',
+    //       icon: Icon(Icons.view_week_outlined),
+    //     ),
+    //     BottomNavigationBarItem(
+    //       label: 'Person',
+    //       icon: InkWell(
+    //           onTap: (() {
+    //             Navigator.of(context).push(MaterialPageRoute(
+    //                 builder: (context) => UserProfileScreen()));
+    //           }),
+    //           child: const Icon(Icons.person_outline)),
+    //     )
+    //   ],
+    // );
+
+    return CustomBottomNavBar();
   }
 }
 
@@ -125,9 +128,9 @@ class _HomePageDetailState extends State<HomePageDetail> {
 
                 ComingClothes(),
                 const RecommendedItem(),
-                TrendingClothes(
-                  key: dataKey,
-                ),
+                // TrendingClothes(
+                //   key: dataKey,
+                // ),
               ],
             ),
           );

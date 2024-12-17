@@ -6,10 +6,13 @@ import 'package:flutter/services.dart';
 
 class User {
   final String id;
-  final String name;
+  final String username;
   final String email;
   final String password; // In a real app, use hashed passwords
   final String phoneNumber;
+
+  final String firstName;
+  final String lastName;
 
   final String country;
   final String province;
@@ -28,9 +31,11 @@ class User {
 
   User({
     required this.id,
-    required this.name,
+    required this.username,
     required this.email,
     required this.password,
+    required this.firstName,
+    required this.lastName,
     required this.country,
     required this.province,
     required this.district,
@@ -50,9 +55,11 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as String,
-      name: json['name'] as String,
+      username: json['username'] as String,
       email: json['email'] as String,
       password: json['password'] as String,
+      firstName: json['firstName'] as String,
+      lastName: json['lastName'] as String,
       country: json['country'] as String,
       province: json['province'] as String,
       district: json['district'] as String,
@@ -76,9 +83,11 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': name,
+      'name': username,
       'email': email,
       'password': password,
+      'firstName': firstName,
+      'lastName': lastName,
       'country': country,
       'province': province,
       'district': district,
@@ -100,6 +109,8 @@ class User {
     String? name,
     String? email,
     String? password,
+    String? firstName,
+    String? lastName,
     String? address,
     String? phoneNumber,
     String? avatarUrl,
@@ -111,9 +122,11 @@ class User {
   }) {
     return User(
       id: id,
-      name: name ?? this.name,
+      username: name ?? this.username,
       email: email ?? this.email,
       password: password ?? this.password,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
       address: address ?? this.address,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       avatarUrl: avatarUrl ?? this.avatarUrl,

@@ -15,8 +15,11 @@ class ClothesDataLoading extends ClothesState {
 }
 
 class FetchClothesSuccess extends ClothesState {
-  const FetchClothesSuccess(List<Clothes> clothes)
-      : super(clothesList: clothes);
+  final List<Clothes> selectClothesList;
+
+  const FetchClothesSuccess({
+    required this.selectClothesList,
+  });
 }
 
 class FetchClothesError extends ClothesState {
@@ -25,11 +28,13 @@ class FetchClothesError extends ClothesState {
 
 class ViewClothesInfoSuccess extends ClothesState {
   final Clothes clothes;
+  final List<Clothes> selectClothesList;
   final bool isEnabled;
   final int cartQuantity;
 
   const ViewClothesInfoSuccess({
     required this.clothes,
+    required this.selectClothesList,
     required this.isEnabled,
     required this.cartQuantity,
   }) : super(item: clothes);
@@ -64,4 +69,12 @@ class ViewPaymentDetailSuccess extends ClothesState {
 
   const ViewPaymentDetailSuccess(
       {required this.clothesList, required this.totalPrice});
+}
+
+class PlaceOrderSuccess extends ClothesState {
+  const PlaceOrderSuccess();
+}
+
+class PlaceOrderFail extends ClothesState {
+  const PlaceOrderFail();
 }

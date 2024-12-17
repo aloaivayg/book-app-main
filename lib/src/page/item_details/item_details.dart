@@ -3,6 +3,7 @@ import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/common/const/app_list.dart';
 import 'package:book_app/src/common/widgets/item_slide_show.dart';
 import 'package:book_app/src/page/cart/cart.dart';
+import 'package:book_app/src/page/item_details/widgets/comment.dart';
 import 'package:book_app/src/page/item_details/widgets/comment_section.dart';
 import 'package:book_app/src/page/item_details/widgets/item_description.dart';
 import 'package:book_app/src/page/user/login.dart';
@@ -23,6 +24,8 @@ class ItemInfoPage extends StatefulWidget {
 
 class _ItemInfoPageState extends State<ItemInfoPage> {
   late List<String> sizeList;
+  late List<String> hexColorList;
+
   late List<Map<String, String>> colorList;
   late List<Color> colorList2;
 
@@ -31,6 +34,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
   late String selectedSize;
   late String selectedColor;
 
+  late String description;
+
   @override
   void initState() {
     super.initState();
@@ -38,9 +43,11 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
     selectedColorIndex = -1;
     selectedSize = "";
     selectedColor = "";
-    sizeList = resourceSizeList;
+    sizeList = [];
+    hexColorList = [];
     colorList = resourceColorList;
     colorList2 = resourceColorList2;
+    description = "";
   }
 
   @override
@@ -55,6 +62,30 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 child: const Center(child: CircularProgressIndicator()));
           }
           if (state is ViewClothesInfoSuccess) {
+            List<String> slideShowImage = [];
+            String baseImg = state.clothes.baseImageUrl;
+            hexColorList = [];
+            sizeList = [];
+            // Color filter
+            Set<String> seenColors = {};
+            slideShowImage.addAll(state.selectClothesList
+                .where((element) =>
+                    seenColors.add(element.color)) // Adds only new colors
+                .map((element) => baseImg));
+            seenColors = {};
+            hexColorList.addAll(state.selectClothesList
+                .where((element) =>
+                    seenColors.add(element.color)) // Adds only new colors
+                .map((element) => element.colorHexValue));
+            print(hexColorList.length);
+            description = state.clothes.description;
+            // Size filter
+            Set<String> seenSizes = {};
+            sizeList.addAll(state.selectClothesList
+                .where((element) =>
+                    seenSizes.add(element.size)) // Adds only new sizes
+                .map((element) => element.size));
+
             return Column(
               children: [
                 Container(
@@ -104,7 +135,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                 Container(
                   margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                   child: ItemSlideShow(
-                    items: state.clothes.imageURL!,
+                    items: slideShowImage,
                     width: double.maxFinite,
                     heigth: 400,
                     selectedIndex: selectedColorIndex,
@@ -190,7 +221,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                     Expanded(
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: state.clothes.colorHexValue.length,
+                        itemCount: hexColorList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             margin: const EdgeInsets.all(4),
@@ -202,6 +233,8 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                                       colorList[selectedColorIndex]['color']!;
 
                                   state.clothes.selectedColor = selectedColor;
+                                  state.clothes.selectedImageUrl =
+                                      slideShowImage[selectedColorIndex];
                                 });
 
                                 context.read<ClothesBloc>().add(
@@ -213,8 +246,7 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                               child: SquareButton(
                                 height: 20,
                                 width: 35,
-                                color: HexColor.fromHex(
-                                    state.clothes.colorHexValue[index]),
+                                color: HexColor.fromHex(hexColorList[index]),
                                 borderWidth:
                                     selectedColorIndex == index ? 3 : 1,
                                 borderColor: selectedColorIndex == index
@@ -275,7 +307,9 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
                     width: double.maxFinite,
                     margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
                     alignment: Alignment.centerLeft,
-                    child: const DescriptionExpansionTile()),
+                    child: DescriptionExpansionTile(
+                      description: description,
+                    )),
                 Container(
                     width: double.maxFinite,
                     margin: const EdgeInsets.only(top: 10, left: 30, right: 20),
@@ -319,13 +353,15 @@ class _ItemInfoPageState extends State<ItemInfoPage> {
               child: Text("Go to Cart"),
               onPressed: () {
                 Navigator.of(context).pop();
+                context.read<ClothesBloc>().add(const ViewCartEvent());
+                Get.off(const CartPage());
 
-                if (userState is SignInSuccess) {
-                  context.read<ClothesBloc>().add(const ViewCartEvent());
-                  Get.off(const CartPage());
-                } else {
-                  Get.off(const LoginScreen());
-                }
+                // if (userState is SignInSuccess) {
+                //   context.read<ClothesBloc>().add(const ViewCartEvent());
+                //   Get.off(const CartPage());
+                // } else {
+                //   Get.off(const LoginScreen());
+                // }
               },
             ),
           ],

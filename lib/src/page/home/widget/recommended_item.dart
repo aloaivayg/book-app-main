@@ -17,8 +17,6 @@ class RecommendedItem extends StatefulWidget {
 }
 
 class _RecommendedItemState extends State<RecommendedItem> {
-  // var trendingClothesList = <Clothes>[];
-
   var recommendedList = <Clothes>[];
   late ScrollController _scrollController;
 
@@ -55,9 +53,10 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   controller: _scrollController,
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.all(20),
-                  itemCount: state.clothesList!.length,
+                  itemCount: state.selectClothesList.length,
                   itemBuilder: (_, index) {
-                    var clothes = state.clothesList![index];
+                    var clothes = state.selectClothesList[index];
+
                     return GestureDetector(
                       onTap: () {
                         // Navigator.of(context).push(MaterialPageRoute(
@@ -70,7 +69,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                       child: Stack(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(right: 10),
+                            margin: const EdgeInsets.only(right: 10),
                             width: 130,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -78,8 +77,8 @@ class _RecommendedItemState extends State<RecommendedItem> {
                                 Expanded(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
-                                    child: Image.asset(
-                                      clothes.imageURL![0],
+                                    child: Image.network(
+                                      clothes.baseImageUrl,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -107,6 +106,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                         ],
                       ),
                     );
+                 
                   },
                 ),
               ),

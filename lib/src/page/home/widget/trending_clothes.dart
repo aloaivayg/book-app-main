@@ -62,7 +62,7 @@ class _TrendingClothesState extends State<TrendingClothes> {
                               height: 120,
                               width: 100,
                               child: Image.asset(
-                                clothes.imageURL![0],
+                                clothes.selectedImageUrl,
                                 fit: BoxFit.fill,
                               ),
                             ),

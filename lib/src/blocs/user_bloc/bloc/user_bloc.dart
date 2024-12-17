@@ -28,11 +28,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       print(event.prevState.item!.name);
     }
 
-    print(event.signinData);
+    // print(event.signinData);
     if (event.signinData["username"] == "a" &&
         event.signinData["password"] == "a") {
       isSignedIn = true;
       user = dataState;
+      print(event.prevState.clothesList);
       user!.cart = event.prevState.clothesList!;
 
       emit(SignInSuccess(dataState));

@@ -51,7 +51,30 @@ class PaymentDetails extends StatefulWidget {
 }
 
 class _PaymentDetailsState extends State<PaymentDetails> {
-  List<String> cards = ["COD", "Online banking", "Momo"];
+  List<Map<String, String>> paymentOption = [
+    {"title": "COD", "subtitle": "Pay on receipt "},
+    {"title": "Online banking", "subtitle": "Pay through online banking app"},
+    {"title": "Momo", "subtitle": "Pay through Momo wallet"},
+  ];
+  List<Map<String, String>> deliveryOption = [
+    {"title": "Fast Delivery", "subtitle": "10\$"},
+    {"title": "Normal Delivery", "subtitle": "5\$"},
+  ];
+
+  late TextEditingController addressController;
+  late FocusNode addressFocusNode;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addressController = TextEditingController(
+        text: '124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong');
+    addressFocusNode = FocusNode();
+  }
+
+  bool isReadOnly = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ClothesBloc, ClothesState>(
@@ -62,7 +85,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
               child: Column(
                 children: [
                   Container(
-                    height: Get.height * 0.78,
+                    // height: Get.height * 0.78,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -75,9 +98,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                 top: 10, left: 20, right: 20),
                             padding: const EdgeInsets.only(
                                 top: 10, left: 20, right: 20),
-                            decoration: const BoxDecoration(
-                                color: Colors.black,
-                                boxShadow: [
+                            decoration: BoxDecoration(
+                                color: Colors.grey[900],
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Colors.white60,
                                     blurRadius: 1.0,
@@ -87,21 +111,56 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                         0, 2), // shadow direction: bottom right
                                   )
                                 ]),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text("Delivery address",
-                                    style: TextStyle(fontSize: 16)),
-                                TextField(
-                                  maxLines: 4,
-                                  decoration: const InputDecoration(
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none),
-                                  controller: TextEditingController()
-                                    ..text =
-                                        "124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong",
-                                )
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Text(
+                                        'Delivery Address',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isReadOnly = false;
+                                            addressFocusNode.requestFocus();
+                                          });
+                                        },
+                                        child: Container(
+                                          child: const Text(
+                                            'Change',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 8),
+                                  TextFormField(
+                                    // textInputAction: TextInputAction.continueAction,
+                                    keyboardType: TextInputType.text,
+                                    readOnly: isReadOnly,
+                                    focusNode: addressFocusNode,
+                                    controller: addressController,
+                                    onEditingComplete: () {
+                                      isReadOnly = true;
+                                    },
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.white),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -112,9 +171,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                 top: 10, left: 20, right: 20),
                             padding: const EdgeInsets.only(
                                 top: 10, left: 20, right: 20),
-                            decoration: const BoxDecoration(
-                                color: Colors.black,
-                                boxShadow: [
+                            decoration: BoxDecoration(
+                                color: Colors.grey[900],
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
                                   BoxShadow(
                                     color: Colors.white60,
                                     blurRadius: 1.0,
@@ -142,10 +202,60 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   ),
                                 ),
                                 Container(
+                                  height: 200,
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  width: double.maxFinite,
+                                  child: CardOptions(
+                                    options: paymentOption,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[900],
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.white60,
+                                    blurRadius: 1.0,
+                                    spreadRadius: 0.0,
+                                    blurStyle: BlurStyle.outer,
+                                    offset: Offset(
+                                        0, 2), // shadow direction: bottom right
+                                  )
+                                ]),
+                            // height: 190,
+                            width: double.maxFinite,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: const Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("Delivery method",
+                                          style: TextStyle(fontSize: 16)),
+                                    ],
+                                  ),
+                                ),
+                                Container(
                                   height: 160,
                                   padding: const EdgeInsets.only(bottom: 10),
                                   width: double.maxFinite,
-                                  child: const PaymentOptions(),
+                                  child: CardOptions(
+                                    options: deliveryOption,
+                                  ),
                                 ),
                               ],
                             ),
@@ -159,8 +269,9 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                             padding: const EdgeInsets.only(
                                 top: 10, bottom: 10, left: 20, right: 20),
                             height: 200,
-                            decoration: const BoxDecoration(
-                                color: Colors.black,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[900],
+                                borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.white60,
@@ -205,6 +316,14 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("Discount: "),
+                                    Text("\$"),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("VAT included: "),
                                     Text("\$"),
                                   ],
                                 ),
