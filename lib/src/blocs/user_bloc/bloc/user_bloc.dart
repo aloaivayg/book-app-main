@@ -15,10 +15,26 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(const DataLoading()) {
     on<SignUpEvent>(onSignUpEvent);
     on<SignInEvent>(onSignInEvent);
+    on<EditProfileEvent>(onEditProfileEvent);
   }
 
   var isSignedIn = false;
   User? user;
+
+  void onEditProfileEvent(
+      EditProfileEvent event, Emitter<UserState> emit) async {
+    final String url = '${ServerUrl.userApi}/updateProfile';
+
+    final body = event.formData;
+    final response = await HttpClient.postRequest(url, params: body);
+
+    dynamic data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      user = User.fromJson(data);
+      print(data);
+    } else {}
+  }
 
   void onSignUpEvent(SignUpEvent event, Emitter<UserState> emit) async {
     print(event.signupData);

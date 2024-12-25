@@ -3,6 +3,8 @@ import 'package:book_app/src/blocs/app_setting_bloc/bloc/app_setting_bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/page/order/order_screen.dart';
+import 'package:book_app/src/page/user/profile/edit_profile/edit_profile_screen.dart';
+import 'package:book_app/src/page/user/profile/user_profile_screen.dart';
 import 'package:book_app/src/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,6 +61,8 @@ class MyApp extends StatelessWidget {
             '/': (context) => HomePage(),
             '/order': (context) => OrderScreen(),
             '/signup': (context) => SignUpScreen(),
+            '/profile': (context) => UserProfileScreen(),
+            '/profile/edit': (context) => EditProfileScreen(),
 
             // '/': (context) => LoginPage(),
 
@@ -84,7 +88,7 @@ class MyApp extends StatelessWidget {
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
           themeMode: settingsController.themeMode,
-          initialRoute: '/signup',
+          initialRoute: '/profile/edit',
           routingCallback: (routing) {
             print(routing!.current);
 
@@ -103,7 +107,8 @@ class MyApp extends StatelessWidget {
 
                   default:
                     // return HomePage();
-                    return SignUpScreen();
+                    // return SignUpScreen();
+                    return EditProfileScreen();
                 }
               },
             );

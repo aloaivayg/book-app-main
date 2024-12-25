@@ -18,3 +18,9 @@ class SignInEvent extends UserEvent {
 
   const SignInEvent({required this.signinData, required this.prevState});
 }
+
+class EditProfileEvent extends UserEvent {
+  final Map<String, dynamic> formData;
+
+  const EditProfileEvent({required this.formData});
+}

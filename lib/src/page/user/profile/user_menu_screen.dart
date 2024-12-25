@@ -3,6 +3,7 @@ import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/order/order_screen.dart';
 import 'package:book_app/src/page/user/login/login.dart';
+import 'package:book_app/src/page/user/profile/user_profile_screen.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,8 +148,10 @@ class _UserMenuScreenDetailState extends State<UserMenuScreenDetail> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   children: [
-                    _buildGridItem(Icons.person,
-                        AppLocalizations.of(context)!.profile, () => {}),
+                    _buildGridItem(
+                        Icons.person,
+                        AppLocalizations.of(context)!.profile,
+                        () => Get.to(const UserProfileScreen())),
                     _buildGridItem(Icons.history,
                         AppLocalizations.of(context)!.transaction, () => {}),
                     _buildGridItem(Icons.discount,
