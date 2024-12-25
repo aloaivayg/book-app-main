@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/config/data_source/ServerUrl.dart';
+import 'package:book_app/src/config/http/http_client.dart';
 import 'package:book_app/src/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -17,8 +21,20 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   User? user;
 
   void onSignUpEvent(SignUpEvent event, Emitter<UserState> emit) async {
-    // final dataState = await User.loadUserFromBundle();
     print(event.signupData);
+    final String url = '${ServerUrl.userApi}/register';
+    final body = event.signupData;
+    final response = await HttpClient.postRequest(url, params: body);
+
+    dynamic data = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      print(jsonEncode(data));
+      user = User.fromJson(data);
+      emit(SignUpSuccess());
+    } else {
+      emit(SignUpError(message: data["error"]));
+    }
   }
 
   void onSignInEvent(SignInEvent event, Emitter<UserState> emit) async {

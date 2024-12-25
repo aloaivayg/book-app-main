@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:book_app/src/config/data_source/ServerUrl.dart';
 import 'package:book_app/src/model/clothes.dart';
+import 'package:book_app/src/model/order.dart';
 import 'package:book_app/src/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
@@ -24,6 +25,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     on<RemoveCartItemEvent>(onRemoveCartItemEvent);
     on<ViewPaymentDetailsEvent>(onViewPaymentDetailsEvent);
     on<PlaceOrderEvent>(onPlaceOrderEvent);
+    on<ViewAllOrdersEvent>(onViewAllOrdersEvent);
   }
 
   var itemMapByProductCode = <String, List<Clothes>>{};
@@ -35,24 +37,50 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   late User user;
   double totalPrice = 0;
 
+  void onViewAllOrdersEvent(
+      ViewAllOrdersEvent event, Emitter<ClothesState> emit) async {
+    final String url = '${ServerUrl.orderApi}/getByUserId/${event.userId}';
+
+    final response = await HttpClient.getRequest(url);
+
+    if (response.statusCode == 200) {
+      dynamic data = json.decode(response.body);
+      print(jsonEncode(data));
+
+      List<Order> orderList =
+          data.map((json) => Order.fromJson(json)).toList().cast<Order>();
+
+      emit(ViewAllOrdersSuccess(orderList: orderList));
+    } else {
+      emit(const PlaceOrderFail());
+    }
+  }
+
   void onPlaceOrderEvent(
       PlaceOrderEvent event, Emitter<ClothesState> emit) async {
-    final String url = '${ServerUrl.productApi}/create';
+    final String url = '${ServerUrl.orderApi}/create';
 
     var body = {
       "userId": "user123",
-      "orderDate": DateTime.now(),
-      "paymentMethod": "Credit Card",
-      "shippingAddress": "123 Main Street, Springfield, USA",
-      "shippingMethod": "Standard Shipping",
+      "orderDate": DateTime.now().toIso8601String(),
+      "paymentMethod": event.formData["paymentMethod"],
+      "shippingAddress": event.formData["shippingAddress"],
+      "shippingMethod": event.formData["shippingMethod"],
       "orderItems": cartItemQuantityMap,
       "discountsCode": "SUMMER20"
     };
 
     final response = await HttpClient.postRequest(url, params: body);
-    // print(jsonDecode(response["body"]));
+
     if (response.statusCode == 200) {
-      emit(const PlaceOrderSuccess());
+      dynamic data = json.decode(response.body);
+      // print(jsonEncode(data));
+
+      Order order = Order.fromJson(data);
+      cartItems = <Clothes>[];
+      cartItemQuantityMap = <String, int>{};
+      cartItemMap = <String, Clothes>{};
+      emit(PlaceOrderSuccess(order: order));
     } else {
       emit(const PlaceOrderFail());
     }

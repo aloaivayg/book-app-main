@@ -1,4 +1,6 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/page/order/order_info_screen.dart';
+import 'package:book_app/src/page/order/order_screen.dart';
 import 'package:book_app/src/page/payment/widgets/payment_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,16 +60,24 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   ];
   List<Map<String, String>> deliveryOption = [
     {"title": "Fast Delivery", "subtitle": "10\$"},
-    {"title": "Normal Delivery", "subtitle": "5\$"},
+    {"title": "Standard Delivery", "subtitle": "5\$"},
   ];
 
   late TextEditingController addressController;
   late FocusNode addressFocusNode;
+  late ClothesBloc clothesBloc;
+
+  final Map<String, String> formData = {
+    "shippingAddress": "124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong",
+    "paymentMethod": "",
+    "shippingMethod": "",
+  };
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    clothesBloc = context.read<ClothesBloc>();
+
     addressController = TextEditingController(
         text: '124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong');
     addressFocusNode = FocusNode();
@@ -77,7 +87,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ClothesBloc, ClothesState>(
+    return BlocConsumer<ClothesBloc, ClothesState>(
       builder: (context, state) {
         if (state is ViewPaymentDetailSuccess) {
           return SingleChildScrollView(
@@ -156,6 +166,11 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                     onEditingComplete: () {
                                       isReadOnly = true;
                                     },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        formData["shippingAddress"] = value;
+                                      });
+                                    },
                                     style: const TextStyle(
                                         fontSize: 14, color: Colors.white),
                                   ),
@@ -207,6 +222,11 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   width: double.maxFinite,
                                   child: CardOptions(
                                     options: paymentOption,
+                                    onCardSelected: (String value) {
+                                      setState(() {
+                                        formData["paymentMethod"] = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ],
@@ -255,6 +275,11 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   width: double.maxFinite,
                                   child: CardOptions(
                                     options: deliveryOption,
+                                    onCardSelected: (String value) {
+                                      setState(() {
+                                        formData["shippingMethod"] = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ],
@@ -343,7 +368,9 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      clothesBloc.add(PlaceOrderEvent(formData: formData));
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(top: 15, bottom: 20),
                       child: const SquareButton(
@@ -359,7 +386,19 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 ],
               ));
         }
-        return SizedBox();
+        return const SizedBox();
+      },
+      listener: (BuildContext context, ClothesState state) {
+        if (state is PlaceOrderSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Place order success")),
+          );
+          Get.off(OrderInfoScreen());
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Place order error")),
+          );
+        }
       },
     );
   }

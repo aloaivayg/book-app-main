@@ -64,5 +64,11 @@ class ViewPaymentDetailsEvent extends ClothesEvent {
 }
 
 class PlaceOrderEvent extends ClothesEvent {
-  const PlaceOrderEvent();
+  final Map<String, String> formData;
+  const PlaceOrderEvent({required this.formData});
+}
+
+class ViewAllOrdersEvent extends ClothesEvent {
+  final String userId;
+  const ViewAllOrdersEvent({required this.userId});
 }

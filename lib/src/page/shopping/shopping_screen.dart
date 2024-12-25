@@ -41,7 +41,6 @@ class _ShoppingScreenDetailsState extends State<ShoppingScreenDetails> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     clothesBloc = context.read<ClothesBloc>();
   }

@@ -72,9 +72,19 @@ class ViewPaymentDetailSuccess extends ClothesState {
 }
 
 class PlaceOrderSuccess extends ClothesState {
-  const PlaceOrderSuccess();
+  final Order order;
+  const PlaceOrderSuccess({required this.order});
 }
 
 class PlaceOrderFail extends ClothesState {
   const PlaceOrderFail();
+}
+
+class ViewAllOrdersSuccess extends ClothesState {
+  final List<Order> orderList;
+  const ViewAllOrdersSuccess({required this.orderList});
+}
+
+class ViewAllOrdersFail extends ClothesState {
+  const ViewAllOrdersFail();
 }

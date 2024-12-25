@@ -1,21 +1,25 @@
+import 'package:book_app/src/blocs/app_setting_bloc/bloc/app_setting_bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
-import 'package:book_app/src/page/user/login.dart';
-import 'package:book_app/src/page/sign_up/widgets/sign_up_field.dart';
+import 'package:book_app/src/page/cart/cart.dart';
+import 'package:book_app/src/page/home/home.dart';
+import 'package:book_app/src/page/user/sign_up/sign_up.dart';
+import 'package:book_app/src/page/user/sign_up/widgets/sign_up_field.dart';
+import 'package:book_app/src/settings/settings_controller.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,67 +42,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: Container(
             alignment: Alignment.center,
             width: Get.width,
-            child: const Text("Sign up")),
+            child: const Text("Login")),
       ),
       body: const SingleChildScrollView(
-          scrollDirection: Axis.vertical, child: SignUpScreenDetail()),
+          scrollDirection: Axis.vertical, child: LoginDetail()),
     );
   }
 }
 
-class SignUpScreenDetail extends StatefulWidget {
-  const SignUpScreenDetail({Key? key}) : super(key: key);
+class LoginDetail extends StatefulWidget {
+  const LoginDetail({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreenDetail> createState() => _SignUpScreenDetailState();
+  State<LoginDetail> createState() => _LoginDetailState();
 }
 
-class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
-  var signUpData = {
-    "name": "",
-    "phone": "",
-    "email": "",
-    "username": "",
-    "password": ""
-  };
+class _LoginDetailState extends State<LoginDetail> {
+  late SettingsController settingsController;
+
+  var signInData = {"username": "", "password": ""};
 
   final fieldController = <TextEditingController>[
     TextEditingController(),
     TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
   ];
 
-  final fieldNames = <String>[
-    "Name",
-    "Phone number",
-    "Email",
-    "Username",
-    "Password"
-  ];
+  final fieldNames = <String>["Username", "Password"];
 
   final fieldInputType = <TextInputType>[
-    TextInputType.text,
-    TextInputType.number,
-    TextInputType.emailAddress,
     TextInputType.text,
     TextInputType.visiblePassword
   ];
 
   final fieldIcon = <Widget>[
-    const FaIcon(
-      FontAwesomeIcons.a,
-      size: 20,
-    ),
-    const FaIcon(
-      FontAwesomeIcons.phone,
-      size: 20,
-    ),
-    const Icon(
-      Icons.mail,
-      size: 20,
-    ),
     const Icon(
       Icons.person,
       size: 20,
@@ -110,9 +86,26 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
+    return Builder(
+      builder: (context) {
+        final userState = context.watch<UserBloc>().state;
+        final clothesState = context.read<ClothesBloc>().state;
+
+        if (userState is SignInSuccess) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            context.read<ClothesBloc>().add(const ViewCartEvent());
+
+            Get.off(CartPage());
+          });
+          return Container();
+        }
+
         return Column(
           children: [
             Container(
@@ -122,6 +115,7 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
             Container(
               height: Get.height * 0.6,
               margin: const EdgeInsets.only(left: 15, right: 15),
+              alignment: Alignment.center,
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -142,17 +136,13 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        signUpData = {
-                          "name": fieldController[0].text,
-                          "phone": fieldController[1].text,
-                          "email": fieldController[2].text,
-                          "username": fieldController[3].text,
-                          "password": fieldController[4].text
+                        signInData = {
+                          "username": fieldController[0].text,
+                          "password": fieldController[1].text
                         };
 
-                        context
-                            .read<UserBloc>()
-                            .add(SignUpEvent(signupData: signUpData));
+                        context.read<UserBloc>().add(SignInEvent(
+                            signinData: signInData, prevState: clothesState));
                       },
                       child: Container(
                         width: 150,
@@ -161,7 +151,7 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
                         decoration: BoxDecoration(
                             color: HexColor.fromHex("9C28B1"),
                             borderRadius: BorderRadius.circular(8)),
-                        child: const Text("Confirm"),
+                        child: const Text("Sign in"),
                       ),
                     ),
                   ]),
@@ -171,21 +161,21 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  Container(child: const Text("ALREADY HAD ACCOUNT?")),
+                  Container(child: const Text("New user?")),
                   GestureDetector(
                     onTap: () {
-                      Get.to(LoginScreen());
+                      Get.to(SignUpScreen());
                     },
                     child: Container(
                       child: const Text(
-                        "LOGIN",
+                        "Sign up here",
                         style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
                   )
                 ],
               ),
-            ),
+            )
           ],
         );
       },

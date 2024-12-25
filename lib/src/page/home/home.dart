@@ -6,8 +6,8 @@ import 'package:book_app/src/page/home/widget/custom_app_bar.dart';
 import 'package:book_app/src/page/home/widget/custom_button.dart';
 import 'package:book_app/src/page/home/widget/recommended_item.dart';
 import 'package:book_app/src/page/home/widget/trending_clothes.dart';
-import 'package:book_app/src/page/user/login.dart';
-import 'package:book_app/src/page/user/user_profile_screen.dart';
+import 'package:book_app/src/page/user/login/login.dart';
+import 'package:book_app/src/page/user/profile/user_menu_screen.dart';
 import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:book_app/src/settings/settings_controller.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +82,7 @@ class _HomePageDetailState extends State<HomePageDetail> {
   @override
   void initState() {
     super.initState();
+    context.read<ClothesBloc>().add(GetAllClothesEvent());
   }
 
   @override

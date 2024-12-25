@@ -7,10 +7,10 @@ enum OrderStatus {
   delivered,
   cancelled;
 
-  OrderStatus? getOrderStatusFromString(String status) {
+  static OrderStatus? getOrderStatusFromString(String status) {
     try {
       return OrderStatus.values.firstWhere(
-        (e) => e.name == status,
+        (e) => e.name == status.toLowerCase(),
         orElse: () => throw ArgumentError('Invalid OrderStatus: $status'),
       );
     } catch (_) {
@@ -30,13 +30,12 @@ class Order {
   final String shippingAddress;
   final String shippingMethod;
   final double shippingCost;
-  final String trackingNumber;
+
   final List<Clothes> orderItems;
   final double discounts;
   final double taxAmount;
   final String? couponCode;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+
   final DateTime? deliveryDate;
   final String? notes;
   final bool isGift;
@@ -53,13 +52,10 @@ class Order {
     required this.shippingAddress,
     required this.shippingMethod,
     required this.shippingCost,
-    required this.trackingNumber,
     required this.orderItems,
     required this.discounts,
     required this.taxAmount,
     this.couponCode,
-    required this.createdAt,
-    required this.updatedAt,
     this.deliveryDate,
     this.notes,
     required this.isGift,
@@ -71,27 +67,24 @@ class Order {
       orderId: json['orderId'],
       userId: json['userId'],
       orderDate: DateTime.parse(json['orderDate']),
-      status: json['status'],
+      status: OrderStatus.getOrderStatusFromString(json['status'])!,
       totalAmount: json['totalAmount'].toDouble(),
       paymentMethod: json['paymentMethod'],
       paymentStatus: json['paymentStatus'],
       shippingAddress: json['shippingAddress'] ?? "",
       shippingMethod: json['shippingMethod'],
       shippingCost: json['shippingCost'].toDouble(),
-      trackingNumber: json['trackingNumber'],
       orderItems: (json['orderItems'] as List)
           .map((item) => Clothes.fromJson(item))
           .toList(),
       discounts: json['discounts'].toDouble(),
       taxAmount: json['taxAmount'].toDouble(),
       couponCode: json['couponCode'],
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
       deliveryDate: json['deliveryDate'] != null
           ? DateTime.parse(json['deliveryDate'])
           : null,
       notes: json['notes'],
-      isGift: json['isGift'],
+      isGift: json['gift'],
       giftMessage: json['giftMessage'],
     );
   }
@@ -131,13 +124,10 @@ class Order {
       shippingAddress: shippingAddress ?? this.shippingAddress,
       shippingMethod: shippingMethod ?? this.shippingMethod,
       shippingCost: shippingCost ?? this.shippingCost,
-      trackingNumber: trackingNumber ?? this.trackingNumber,
       orderItems: orderItems ?? this.orderItems,
       discounts: discounts ?? this.discounts,
       taxAmount: taxAmount ?? this.taxAmount,
       couponCode: couponCode ?? this.couponCode,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
       deliveryDate: deliveryDate ?? this.deliveryDate,
       notes: notes ?? this.notes,
       isGift: isGift ?? this.isGift,

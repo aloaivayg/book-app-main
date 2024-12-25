@@ -6,7 +6,7 @@ import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/item_details/widgets/comment.dart';
 import 'package:book_app/src/page/item_details/widgets/comment_section.dart';
 import 'package:book_app/src/page/item_details/widgets/item_description.dart';
-import 'package:book_app/src/page/user/login.dart';
+import 'package:book_app/src/page/user/login/login.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -8,7 +8,7 @@ class User {
   final String id;
   final String username;
   final String email;
-  final String password; // In a real app, use hashed passwords
+
   final String phoneNumber;
 
   final String firstName;
@@ -17,7 +17,6 @@ class User {
   final String country;
   final String province;
   final String district;
-  final String ward;
   final String address;
 
   final String avatarUrl; // URL to the user's profile picture
@@ -33,13 +32,11 @@ class User {
     required this.id,
     required this.username,
     required this.email,
-    required this.password,
     required this.firstName,
     required this.lastName,
     required this.country,
     required this.province,
     required this.district,
-    required this.ward,
     required this.address,
     required this.phoneNumber,
     required this.avatarUrl,
@@ -57,13 +54,11 @@ class User {
       id: json['id'] as String,
       username: json['username'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String,
       country: json['country'] as String,
       province: json['province'] as String,
       district: json['district'] as String,
-      ward: json['ward'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,
       avatarUrl: json['avatarUrl'] as String,
@@ -83,15 +78,13 @@ class User {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'name': username,
+      'username': username,
       'email': email,
-      'password': password,
       'firstName': firstName,
       'lastName': lastName,
       'country': country,
       'province': province,
       'district': district,
-      'ward': ward,
       'address': address,
       'phoneNumber': phoneNumber,
       'avatarUrl': avatarUrl,
@@ -124,7 +117,6 @@ class User {
       id: id,
       username: name ?? this.username,
       email: email ?? this.email,
-      password: password ?? this.password,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       address: address ?? this.address,
@@ -139,7 +131,6 @@ class User {
       country: country,
       province: province,
       district: district,
-      ward: ward,
     );
   }
 

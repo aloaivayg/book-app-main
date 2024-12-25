@@ -1,5 +1,6 @@
 import 'package:book_app/src/page/category/category_screen.dart';
-import 'package:book_app/src/page/user/user_profile_screen.dart';
+import 'package:book_app/src/page/home/home.dart';
+import 'package:book_app/src/page/user/profile/user_menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -36,6 +37,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             iconSize: 25,
             onTap: () {
               // Navigate to home
+              Get.to(const HomePage());
             },
           ),
           _buildNavItem(
@@ -54,7 +56,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             circleSize: 45,
             onTap: () {
               // Navigate to profile
-              Get.to(UserProfileScreen());
+              Get.to(UserMenuScreen());
             },
           ),
         ],

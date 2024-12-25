@@ -5,7 +5,7 @@ class UserState extends Equatable {
   final User? user;
   const UserState({this.error, this.user});
   @override
-  List<Object> get props => [user!, error!];
+  List<Object> get props => [];
 }
 
 class DataLoading extends UserState {
@@ -13,11 +13,12 @@ class DataLoading extends UserState {
 }
 
 class SignUpSuccess extends UserState {
-  const SignUpSuccess(User user) : super(user: user);
+  const SignUpSuccess() : super();
 }
 
 class SignUpError extends UserState {
-  const SignUpError(DioException error) : super(error: error);
+  final String message;
+  const SignUpError({required this.message}) : super();
 }
 
 class SignInSuccess extends UserState {

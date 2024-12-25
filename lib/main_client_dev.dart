@@ -2,12 +2,15 @@ import 'package:book_app/flavor.dart';
 import 'package:book_app/src/blocs/app_setting_bloc/bloc/app_setting_bloc.dart';
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
+import 'package:book_app/src/page/order/order_screen.dart';
 import 'package:book_app/src/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 import 'package:book_app/src/page/home/home.dart';
+import 'package:book_app/src/page/user/sign_up/sign_up.dart';
+
 import 'package:book_app/src/theme/theme.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -54,6 +57,8 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           routes: {
             '/': (context) => HomePage(),
+            '/order': (context) => OrderScreen(),
+            '/signup': (context) => SignUpScreen(),
 
             // '/': (context) => LoginPage(),
 
@@ -79,7 +84,7 @@ class MyApp extends StatelessWidget {
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
           themeMode: settingsController.themeMode,
-          initialRoute: '/',
+          initialRoute: '/signup',
           routingCallback: (routing) {
             print(routing!.current);
 
@@ -97,8 +102,8 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
 
                   default:
-                    return HomePage();
-                  // return SignUpScreen();
+                    // return HomePage();
+                    return SignUpScreen();
                 }
               },
             );
