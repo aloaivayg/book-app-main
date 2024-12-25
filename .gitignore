@@ -24,3 +24,12 @@ doc/api/
 .gitignore
 android/app/build.gradle
 android/app/build.gradle
+.tmp/android/res/mipmap-hdpi/ic_launcher.png
+.tmp/android/res/mipmap-mdpi/ic_launcher.png
+.tmp/android/res/mipmap-xhdpi/ic_launcher.png
+.tmp/android/res/mipmap-xxhdpi/ic_launcher.png
+.tmp/android/res/mipmap-xxxhdpi/ic_launcher.png
+.tmp/ios/LaunchScreen.storyboard
+.tmp/ios/Assets.xcassets/AppIcon.appiconset/Contents.json
+.tmp/ios/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png
+.tmp/ios/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png
