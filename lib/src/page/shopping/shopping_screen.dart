@@ -2,6 +2,7 @@ import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/common/widgets/custom_appbar.dart';
 import 'package:book_app/src/common/widgets/custom_bottom_navbar.dart';
 import 'package:book_app/src/common/widgets/filter_chip.dart';
+import 'package:book_app/src/page/item_details/item_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -73,7 +74,11 @@ class _ShoppingScreenDetailsState extends State<ShoppingScreenDetails> {
                   itemCount: clothesList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        clothesBloc.add(
+                            ViewClothesInfoEvent(clothes: clothesList[index]));
+                        Get.to(ItemInfoPage());
+                      },
                       child: Stack(
                         children: [
                           Container(

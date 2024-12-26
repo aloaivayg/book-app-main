@@ -1,4 +1,5 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/page/order/order_info_screen.dart';
 import 'package:book_app/src/page/order/order_screen.dart';
 import 'package:book_app/src/page/payment/widgets/payment_method.dart';
@@ -66,8 +67,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   late TextEditingController addressController;
   late FocusNode addressFocusNode;
   late ClothesBloc clothesBloc;
+  late UserBloc userBloc;
 
   final Map<String, String> formData = {
+    "userId": "",
     "shippingAddress": "124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong",
     "paymentMethod": "",
     "shippingMethod": "",
@@ -77,10 +80,15 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   void initState() {
     super.initState();
     clothesBloc = context.read<ClothesBloc>();
+    userBloc = context.read<UserBloc>();
 
     addressController = TextEditingController(
         text: '124, Nam Ky Khoi Nghia, Thu Dau Mot city, Binh Duong');
     addressFocusNode = FocusNode();
+
+    if (userBloc.user != null) {
+      formData["userId"] = userBloc.user!.id;
+    }
   }
 
   bool isReadOnly = true;

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:book_app/src/config/data_source/ServerUrl.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/model/voucher.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,7 @@ class User {
   final String address;
 
   final String avatarUrl; // URL to the user's profile picture
-  List<Clothes> cart;
+  final List<Clothes> cart;
   final List<Clothes> wishList;
   final List<Voucher> voucherList;
 
@@ -61,7 +62,7 @@ class User {
       district: json['district'] as String,
       address: json['address'] as String,
       phoneNumber: json['phoneNumber'] as String,
-      avatarUrl: json['avatarUrl'] as String,
+      avatarUrl: "${ServerUrl.baseUrl}/${json['avatarUrl']}",
       cart: List<Clothes>.from(
           json['cart'].map((dynamic i) => Clothes.fromJson(i))),
       wishList: List<Clothes>.from(
@@ -71,6 +72,8 @@ class User {
       orderHistory: List<String>.from(json['orderHistory'] as List),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      // createdAt: DateTime.now(),
+      // updatedAt: DateTime.now(),
     );
   }
 

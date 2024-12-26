@@ -23,7 +23,7 @@ class Order {
   final String orderId;
   final String userId;
   final DateTime orderDate;
-  final OrderStatus status;
+  OrderStatus status;
   final double totalAmount;
   final String paymentMethod;
   final String paymentStatus;

@@ -6,6 +6,7 @@ import 'package:book_app/src/provider/ClothesProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import '../../item_details/item_details.dart';
 
@@ -49,8 +50,7 @@ class _TrendingClothesState extends State<TrendingClothes> {
 
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ItemInfoPage()));
+                      Get.to(const ItemInfoPage());
                     },
                     child: SizedBox(
                       height: 120,

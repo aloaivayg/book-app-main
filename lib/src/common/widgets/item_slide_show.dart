@@ -45,7 +45,7 @@ class ItemSlideShow extends StatelessWidget {
                             borderRadius: BorderRadius.circular(15),
                             child: Image.network(
                               e.toString(),
-                              fit: BoxFit.scaleDown,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),

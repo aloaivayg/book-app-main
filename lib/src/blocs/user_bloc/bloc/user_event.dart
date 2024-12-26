@@ -24,3 +24,19 @@ class EditProfileEvent extends UserEvent {
 
   const EditProfileEvent({required this.formData});
 }
+
+class LogoutEvent extends UserEvent {
+  const LogoutEvent();
+}
+
+class CreateReviewEvent extends UserEvent {
+  final Map<String, dynamic> formData;
+
+  const CreateReviewEvent({required this.formData});
+}
+
+class GetReviewByProductIdEvent extends UserEvent {
+  final String productId;
+
+  const GetReviewByProductIdEvent({required this.productId});
+}

@@ -2,7 +2,9 @@ import 'dart:collection';
 
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
+import 'package:book_app/src/common/widgets/user_dialog.dart';
 import 'package:book_app/src/page/user/login/login.dart';
+import 'package:book_app/src/page/user/profile/user_menu_screen.dart';
 import 'package:book_app/src/page/user/sign_up/widgets/sign_up_field.dart';
 import 'package:book_app/src/util/color_from_hex.dart';
 import 'package:flutter/material.dart';
@@ -340,10 +342,11 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
       },
       listener: (context, state) {
         if (state is SignUpSuccess) {
-          _openAnimatedDialog(context, "Register success");
+          openAnimatedDialog(context, "Register success",
+              () => Get.to((const UserMenuScreen())));
         }
         if (state is SignUpError) {
-          _openAnimatedDialog(context, state.message);
+          openAnimatedDialog(context, state.message, () {});
         }
       },
     );
@@ -375,33 +378,5 @@ class _SignUpScreenDetailState extends State<SignUpScreenDetail> {
       margin: EdgeInsets.symmetric(vertical: 8),
       child: Text(s),
     );
-  }
-
-  void _openAnimatedDialog(BuildContext context, String message) {
-    showGeneralDialog(
-        context: context,
-        pageBuilder: ((context, animation, secondaryAnimation) {
-          return Container();
-        }),
-        transitionDuration: const Duration(milliseconds: 400),
-        transitionBuilder: ((context, animation, secondaryAnimation, child) {
-          return ScaleTransition(
-            scale: Tween<double>(begin: 0.5, end: 1).animate(animation),
-            child: FadeTransition(
-              opacity: Tween<double>(begin: 0.5, end: 1).animate(animation),
-              child: AlertDialog(
-                title: Center(child: Text(message)),
-                actions: [
-                  TextButton(
-                    child: const Text("Close"),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        }));
   }
 }

@@ -1,12 +1,14 @@
+import 'package:book_app/src/model/review.dart';
+import 'package:book_app/src/page/item_details/widgets/rating_star.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ItemDetailCommentSection extends StatefulWidget {
-  const ItemDetailCommentSection({Key? key, required this.commentDetail})
+  const ItemDetailCommentSection({Key? key, required this.reviews})
       : super(key: key);
 
-  final List<String> commentDetail;
+  final List<Review> reviews;
 
   @override
   State<ItemDetailCommentSection> createState() =>
@@ -19,14 +21,26 @@ class _ItemDetailCommentSectionState extends State<ItemDetailCommentSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          child: const Text(
-            "Review and Rating",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: const Text(
+                "Review and Rating",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            // Rating star
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15),
+              child: RatingStars(rating: 4.5),
+            ),
+          ],
         ),
         ExpansionTile(
-          title: Text('Comment'),
+          title: Text('Review'),
           children: [
             Container(
               padding: EdgeInsets.all(8),
@@ -43,14 +57,26 @@ class _ItemDetailCommentSectionState extends State<ItemDetailCommentSection> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("camille.officialstore"),
-                            Text("2023-08-24"),
-                            FaIcon(
-                              FontAwesomeIcons.star,
-                              size: 10,
+                            Text(
+                              "camille.officialstore",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            SizedBox(
+                              height: 8,
                             ),
                             Text(
-                                "Sweater kiểu này đẹp quá, có phối layer kiểu basic rất dễ phối đồ mà nam nữ đều ok nè..."),
+                              widget.reviews[index].createdAt,
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[300]),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            RatingStars(rating: widget.reviews[index].rating),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(widget.reviews[index].comment),
                           ],
                         ),
                       );
@@ -58,7 +84,7 @@ class _ItemDetailCommentSectionState extends State<ItemDetailCommentSection> {
                     separatorBuilder: ((context, index) {
                       return Divider();
                     }),
-                    itemCount: 3),
+                    itemCount: widget.reviews.length),
               ),
             )
           ],

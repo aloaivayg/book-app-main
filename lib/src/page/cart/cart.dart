@@ -1,8 +1,10 @@
 import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
+import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/model/clothes.dart';
 import 'package:book_app/src/page/cart/widgets/cart_total_price.dart';
 import 'package:book_app/src/page/payment/payment.dart';
 import 'package:book_app/src/page/payment/payment2.dart';
+import 'package:book_app/src/page/user/login/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,9 +26,21 @@ class _CartPageState extends State<CartPage> {
   double totalPrice = 0;
   int quantityValue = 1;
 
+  late UserBloc userBloc;
+
   @override
   void initState() {
     super.initState();
+    userBloc = context.read<UserBloc>();
+
+    if (userBloc.user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Get.to(LoginScreen())!.then((_) {
+          // After login is successful, navigate back
+          Get.back(result: true); // Or pass any necessary data
+        });
+      });
+    }
   }
 
   @override

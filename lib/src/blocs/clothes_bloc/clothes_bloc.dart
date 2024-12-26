@@ -34,18 +34,18 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   var cartItems = <Clothes>[];
   var cartItemQuantityMap = <String, int>{};
   var cartItemMap = <String, Clothes>{};
-  late User user;
+
   double totalPrice = 0;
 
   void onViewAllOrdersEvent(
       ViewAllOrdersEvent event, Emitter<ClothesState> emit) async {
     final String url = '${ServerUrl.orderApi}/getByUserId/${event.userId}';
 
+    print(event.userId);
     final response = await HttpClient.getRequest(url);
 
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
-      print(jsonEncode(data));
 
       List<Order> orderList =
           data.map((json) => Order.fromJson(json)).toList().cast<Order>();
@@ -61,7 +61,7 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
     final String url = '${ServerUrl.orderApi}/create';
 
     var body = {
-      "userId": "user123",
+      "userId": event.formData["userId"],
       "orderDate": DateTime.now().toIso8601String(),
       "paymentMethod": event.formData["paymentMethod"],
       "shippingAddress": event.formData["shippingAddress"],
@@ -74,7 +74,6 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
 
     if (response.statusCode == 200) {
       dynamic data = json.decode(response.body);
-      // print(jsonEncode(data));
 
       Order order = Order.fromJson(data);
       cartItems = <Clothes>[];
@@ -193,7 +192,6 @@ class ClothesBloc extends Bloc<ClothesEvent, ClothesState> {
   }
 
   void onViewCartEvent(ViewCartEvent event, Emitter<ClothesState> emit) async {
-    print("---------${cartItems.length}");
     emit(ViewCartSuccess(
         clothesList: cartItems,
         clothesMap: cartItemQuantityMap,

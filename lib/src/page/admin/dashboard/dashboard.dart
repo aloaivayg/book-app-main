@@ -4,7 +4,9 @@ import 'package:book_app/src/page/admin/dashboard/dashboard_add_item.dart';
 import 'package:book_app/src/page/admin/dashboard/dashboard_delete_item.dart';
 import 'package:book_app/src/page/admin/dashboard/dashboard_edit_item.dart';
 import 'package:book_app/src/page/admin/dashboard/dashboard_home.dart';
+import 'package:book_app/src/page/admin/dashboard/dashboard_view_order.dart';
 import 'package:book_app/src/page/admin/observer/home_screen_obs.dart';
+import 'package:book_app/src/page/order/order_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -28,10 +30,10 @@ class _DashboardScreenState extends State<DashboardScreen>
   ];
 
   final List<String> _tabNames = [
-    "Home",
-    "Add Item",
-    "Edit Item",
-    "Delete Item"
+    "View Product",
+    "Add Product",
+    "View User",
+    "View Order"
   ];
 
   void _onMenuItemSelected(int index) {
@@ -144,9 +146,9 @@ class _DashboardScreenState extends State<DashboardScreen>
       case 1:
         return Icons.add;
       case 2:
-        return Icons.edit;
+        return Icons.person;
       case 3:
-        return Icons.delete;
+        return Icons.check_box_outline_blank;
       default:
         return Icons.help;
     }
@@ -161,7 +163,8 @@ class _DashboardScreenState extends State<DashboardScreen>
       case 2:
         return EditItemScreen();
       case 3:
-        return DeleteItemScreen();
+        return AdminOrderScreen();
+
       default:
         return Center(child: Text("Tab $index"));
     }

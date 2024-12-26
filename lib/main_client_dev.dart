@@ -12,6 +12,7 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 import 'package:book_app/src/page/home/home.dart';
 import 'package:book_app/src/page/user/sign_up/sign_up.dart';
+import 'package:book_app/src/page/user/login/login.dart';
 
 import 'package:book_app/src/theme/theme.dart';
 import 'package:flutter/services.dart';
@@ -61,6 +62,8 @@ class MyApp extends StatelessWidget {
             '/': (context) => HomePage(),
             '/order': (context) => OrderScreen(),
             '/signup': (context) => SignUpScreen(),
+            '/login': (context) => LoginScreen(),
+
             '/profile': (context) => UserProfileScreen(),
             '/profile/edit': (context) => EditProfileScreen(),
 
@@ -88,7 +91,7 @@ class MyApp extends StatelessWidget {
           theme: Themes.lightTheme,
           darkTheme: Themes.darkTheme,
           themeMode: settingsController.themeMode,
-          initialRoute: '/profile/edit',
+          initialRoute: '/',
           routingCallback: (routing) {
             print(routing!.current);
 
@@ -106,9 +109,9 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
 
                   default:
-                    // return HomePage();
-                    // return SignUpScreen();
-                    return EditProfileScreen();
+                    return HomePage();
+                  // return SignUpScreen();
+                  // return LoginScreen();
                 }
               },
             );

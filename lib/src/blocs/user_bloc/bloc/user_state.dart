@@ -22,9 +22,40 @@ class SignUpError extends UserState {
 }
 
 class SignInSuccess extends UserState {
-  const SignInSuccess(User user) : super(user: user);
+  const SignInSuccess() : super();
 }
 
 class SignInError extends UserState {
-  const SignInError(DioException error) : super(error: error);
+  final String message;
+
+  const SignInError({required this.message}) : super();
+}
+
+class EditProfileSuccess extends UserState {
+  const EditProfileSuccess() : super();
+}
+
+class EditProfileError extends UserState {
+  final String message;
+
+  const EditProfileError({required this.message}) : super();
+}
+
+class LogoutSuccess extends UserState {
+  const LogoutSuccess() : super();
+}
+
+class CreateReviewSuccess extends UserState {
+  const CreateReviewSuccess() : super();
+}
+
+class CreateReviewError extends UserState {
+  final String message;
+
+  const CreateReviewError({required this.message}) : super();
+}
+
+class GetReviewByProductIdSuccess extends UserState {
+  final List<Review> reviewList;
+  const GetReviewByProductIdSuccess({required this.reviewList}) : super();
 }

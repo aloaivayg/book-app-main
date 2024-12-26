@@ -3,6 +3,7 @@ import 'package:book_app/src/blocs/clothes_bloc/clothes_bloc.dart';
 import 'package:book_app/src/blocs/user_bloc/bloc/user_bloc.dart';
 import 'package:book_app/src/page/cart/cart.dart';
 import 'package:book_app/src/page/home/home.dart';
+import 'package:book_app/src/page/user/profile/user_menu_screen.dart';
 import 'package:book_app/src/page/user/sign_up/sign_up.dart';
 import 'package:book_app/src/page/user/sign_up/widgets/sign_up_field.dart';
 import 'package:book_app/src/settings/settings_controller.dart';
@@ -60,14 +61,14 @@ class LoginDetail extends StatefulWidget {
 class _LoginDetailState extends State<LoginDetail> {
   late SettingsController settingsController;
 
-  var signInData = {"username": "", "password": ""};
+  var signInData = {"email": "", "password": ""};
 
   final fieldController = <TextEditingController>[
     TextEditingController(),
     TextEditingController(),
   ];
 
-  final fieldNames = <String>["Username", "Password"];
+  final fieldNames = <String>["Email", "Password"];
 
   final fieldInputType = <TextInputType>[
     TextInputType.text,
@@ -99,11 +100,17 @@ class _LoginDetailState extends State<LoginDetail> {
 
         if (userState is SignInSuccess) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            context.read<ClothesBloc>().add(const ViewCartEvent());
+            // HANDLE GO TO CART LOGIC
+            // context.read<ClothesBloc>().add(const ViewCartEvent());
 
-            Get.off(CartPage());
+            Get.off(UserMenuScreen());
           });
           return Container();
+        }
+        if (userState is SignInError) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            _openAnimatedDialog(context, userState.message);
+          });
         }
 
         return Column(
@@ -136,10 +143,8 @@ class _LoginDetailState extends State<LoginDetail> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        signInData = {
-                          "username": fieldController[0].text,
-                          "password": fieldController[1].text
-                        };
+                        signInData["email"] = fieldController[0].text;
+                        signInData["password"] = fieldController[1].text;
 
                         context.read<UserBloc>().add(SignInEvent(
                             signinData: signInData, prevState: clothesState));
@@ -167,9 +172,13 @@ class _LoginDetailState extends State<LoginDetail> {
                       Get.to(SignUpScreen());
                     },
                     child: Container(
-                      child: const Text(
-                        "Sign up here",
-                        style: TextStyle(fontStyle: FontStyle.italic),
+                      child: Text(
+                        "SIGN UP",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: HexColor.fromHex("EA1E63"),
+                        ),
                       ),
                     ),
                   )
@@ -180,5 +189,33 @@ class _LoginDetailState extends State<LoginDetail> {
         );
       },
     );
+  }
+
+  void _openAnimatedDialog(BuildContext context, String message) {
+    showGeneralDialog(
+        context: context,
+        pageBuilder: ((context, animation, secondaryAnimation) {
+          return Container();
+        }),
+        transitionDuration: const Duration(milliseconds: 400),
+        transitionBuilder: ((context, animation, secondaryAnimation, child) {
+          return ScaleTransition(
+            scale: Tween<double>(begin: 0.5, end: 1).animate(animation),
+            child: FadeTransition(
+              opacity: Tween<double>(begin: 0.5, end: 1).animate(animation),
+              child: AlertDialog(
+                title: Center(child: Text(message)),
+                actions: [
+                  TextButton(
+                    child: const Text("Close"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }));
   }
 }

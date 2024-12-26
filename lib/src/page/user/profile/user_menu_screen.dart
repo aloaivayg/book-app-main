@@ -49,7 +49,7 @@ class UserMenuScreenDetail extends StatefulWidget {
 class _UserMenuScreenDetailState extends State<UserMenuScreenDetail> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ClothesBloc, ClothesState>(
+    return BlocConsumer<UserBloc, UserState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -125,20 +125,20 @@ class _UserMenuScreenDetailState extends State<UserMenuScreenDetail> {
                             version: QrVersions.auto,
                           )),
                       SizedBox(height: 20),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(LoginScreen());
-                        },
-                        child: Container(
-                          width: 150,
-                          height: 30,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              color: HexColor.fromHex("9C28B1"),
-                              borderRadius: BorderRadius.circular(8)),
-                          child: const Text("Sign in"),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Get.to(LoginScreen());
+                      //   },
+                      //   child: Container(
+                      //     width: 150,
+                      //     height: 30,
+                      //     alignment: Alignment.center,
+                      //     decoration: BoxDecoration(
+                      //         color: HexColor.fromHex("9C28B1"),
+                      //         borderRadius: BorderRadius.circular(8)),
+                      //     child: const Text("Sign in"),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -149,9 +149,17 @@ class _UserMenuScreenDetailState extends State<UserMenuScreenDetail> {
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     _buildGridItem(
-                        Icons.person,
-                        AppLocalizations.of(context)!.profile,
-                        () => Get.to(const UserProfileScreen())),
+                      Icons.person,
+                      AppLocalizations.of(context)!.profile,
+                      () {
+                        var user = context.read<UserBloc>().user;
+                        if (user != null) {
+                          Get.to(const UserProfileScreen());
+                        } else {
+                          Get.to(const LoginScreen());
+                        }
+                      },
+                    ),
                     _buildGridItem(Icons.history,
                         AppLocalizations.of(context)!.transaction, () => {}),
                     _buildGridItem(Icons.discount,
@@ -167,6 +175,12 @@ class _UserMenuScreenDetailState extends State<UserMenuScreenDetail> {
             ),
           ),
         );
+      },
+      listener: (context, state) {
+        // if (state.user == null) {
+        //   // If user is logged out, navigate to LoginScreen
+        //   Get.to(const LoginScreen());
+        // }
       },
     );
   }
